@@ -1,0 +1,7 @@
+# /home/jakub/szkola/rl_hw/.venv/bin/python3 long_run.py --exploration correlated --mixer vdn --similarity q_values --env hallway --episodes 500 --seed 3 --out results/hallway_vdn_correlated_q_values_s3.npz --save-every 100
+[corr/vdn/q_values/s3] ep=100/500  eps=0.83  recent_success=0.30  buf=30/1312 (2.29%)  elapsed=5s
+[corr/vdn/q_values/s3] ep=200/500  eps=0.65  recent_success=0.47  buf=77/2416 (3.19%)  elapsed=46s
+[corr/vdn/q_values/s3] ep=300/500  eps=0.48  recent_success=0.89  buf=166/3020 (5.50%)  elapsed=103s
+[corr/vdn/q_values/s3] ep=400/500  eps=0.30  recent_success=0.91  buf=257/3499 (7.34%)  elapsed=149s
+[corr/vdn/q_values/s3] ep=500/500  eps=0.30  recent_success=0.91  buf=348/3909 (8.90%)  elapsed=189s
+DONE -> results/hallway_vdn_correlated_q_values_s3.npz

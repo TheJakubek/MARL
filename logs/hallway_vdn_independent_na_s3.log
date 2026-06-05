@@ -1,0 +1,7 @@
+# /home/jakub/szkola/rl_hw/.venv/bin/python3 long_run.py --exploration independent --mixer vdn --similarity obs --env hallway --episodes 500 --seed 3 --out results/hallway_vdn_independent_na_s3.npz --save-every 100
+[inde/vdn/obs/s3] ep=100/500  eps=0.83  recent_success=0.15  buf=15/1447 (1.04%)  elapsed=0s
+[inde/vdn/obs/s3] ep=200/500  eps=0.65  recent_success=0.56  buf=71/2486 (2.86%)  elapsed=51s
+[inde/vdn/obs/s3] ep=300/500  eps=0.48  recent_success=0.88  buf=159/3105 (5.12%)  elapsed=119s
+[inde/vdn/obs/s3] ep=400/500  eps=0.30  recent_success=0.93  buf=252/3556 (7.09%)  elapsed=164s
+[inde/vdn/obs/s3] ep=500/500  eps=0.30  recent_success=0.98  buf=350/3896 (8.98%)  elapsed=198s
+DONE -> results/hallway_vdn_independent_na_s3.npz

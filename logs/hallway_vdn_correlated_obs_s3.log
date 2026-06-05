@@ -1,0 +1,7 @@
+# /home/jakub/szkola/rl_hw/.venv/bin/python3 long_run.py --exploration correlated --mixer vdn --similarity obs --env hallway --episodes 500 --seed 3 --out results/hallway_vdn_correlated_obs_s3.npz --save-every 100
+[corr/vdn/obs/s3] ep=100/500  eps=0.83  recent_success=0.39  buf=39/1184 (3.29%)  elapsed=6s
+[corr/vdn/obs/s3] ep=200/500  eps=0.65  recent_success=0.40  buf=79/2342 (3.37%)  elapsed=41s
+[corr/vdn/obs/s3] ep=300/500  eps=0.48  recent_success=0.89  buf=168/2886 (5.82%)  elapsed=92s
+[corr/vdn/obs/s3] ep=400/500  eps=0.30  recent_success=0.98  buf=266/3315 (8.02%)  elapsed=131s
+[corr/vdn/obs/s3] ep=500/500  eps=0.30  recent_success=0.99  buf=365/3629 (10.06%)  elapsed=161s
+DONE -> results/hallway_vdn_correlated_obs_s3.npz

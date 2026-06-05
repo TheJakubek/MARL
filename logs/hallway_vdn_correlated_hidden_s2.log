@@ -1,0 +1,7 @@
+# /home/jakub/szkola/rl_hw/.venv/bin/python3 long_run.py --exploration correlated --mixer vdn --similarity hidden --env hallway --episodes 500 --seed 2 --out results/hallway_vdn_correlated_hidden_s2.npz --save-every 100
+[corr/vdn/hidden/s2] ep=100/500  eps=0.83  recent_success=0.24  buf=24/1378 (1.74%)  elapsed=5s
+[corr/vdn/hidden/s2] ep=200/500  eps=0.65  recent_success=0.38  buf=62/2578 (2.40%)  elapsed=67s
+[corr/vdn/hidden/s2] ep=300/500  eps=0.48  recent_success=0.74  buf=136/3343 (4.07%)  elapsed=143s
+[corr/vdn/hidden/s2] ep=400/500  eps=0.30  recent_success=0.74  buf=210/4042 (5.20%)  elapsed=211s
+[corr/vdn/hidden/s2] ep=500/500  eps=0.30  recent_success=0.98  buf=308/4369 (7.05%)  elapsed=242s
+DONE -> results/hallway_vdn_correlated_hidden_s2.npz

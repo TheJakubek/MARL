@@ -9,7 +9,7 @@ import numpy as np
 
 
 class LBFAdapter:
-    def __init__(self, env_id: str = "Foraging-6x6-2p-1f-coop-v3", seed: int | None = None):
+    def __init__(self, env_id: str = "Foraging-5x5-2p-1f-coop-v3", seed: int | None = None):
         self.env = gym.make(env_id)
         self.seed = seed
         self.n_agents = len(self.env.action_space)  # type: ignore[arg-type]
