@@ -1,0 +1,24 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration correlated --mixer qmix --similarity hidden --env switches --episodes 2000 --seed 2 --out results/switches_qmix_correlated_hidden_s2.npz --save-every 100
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12070). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+[corr/qmix/hidden/s2] ep=100/2000  eps=0.96  recent_success=0.02  buf=2/2982 (0.07%)  elapsed=27s
+[corr/qmix/hidden/s2] ep=200/2000  eps=0.91  recent_success=0.04  buf=6/5928 (0.10%)  elapsed=103s
+[corr/qmix/hidden/s2] ep=300/2000  eps=0.87  recent_success=0.11  buf=17/8773 (0.19%)  elapsed=176s
+[corr/qmix/hidden/s2] ep=400/2000  eps=0.83  recent_success=0.23  buf=40/11455 (0.35%)  elapsed=244s
+[corr/qmix/hidden/s2] ep=500/2000  eps=0.78  recent_success=0.35  buf=75/14023 (0.53%)  elapsed=310s
+[corr/qmix/hidden/s2] ep=600/2000  eps=0.74  recent_success=0.43  buf=118/16500 (0.72%)  elapsed=374s
+[corr/qmix/hidden/s2] ep=700/2000  eps=0.69  recent_success=0.39  buf=157/19113 (0.82%)  elapsed=442s
+[corr/qmix/hidden/s2] ep=800/2000  eps=0.65  recent_success=0.30  buf=187/21703 (0.86%)  elapsed=508s
+[corr/qmix/hidden/s2] ep=900/2000  eps=0.61  recent_success=0.07  buf=194/24600 (0.79%)  elapsed=583s
+[corr/qmix/hidden/s2] ep=1000/2000  eps=0.56  recent_success=0.07  buf=201/27529 (0.73%)  elapsed=658s
+[corr/qmix/hidden/s2] ep=1100/2000  eps=0.52  recent_success=0.03  buf=204/30483 (0.67%)  elapsed=735s
+[corr/qmix/hidden/s2] ep=1200/2000  eps=0.48  recent_success=0.04  buf=208/33408 (0.62%)  elapsed=809s
+[corr/qmix/hidden/s2] ep=1300/2000  eps=0.43  recent_success=0.02  buf=210/36375 (0.58%)  elapsed=884s
+[corr/qmix/hidden/s2] ep=1400/2000  eps=0.39  recent_success=0.09  buf=219/39191 (0.56%)  elapsed=956s
+[corr/qmix/hidden/s2] ep=1500/2000  eps=0.34  recent_success=0.09  buf=228/42006 (0.54%)  elapsed=1023s
+[corr/qmix/hidden/s2] ep=1600/2000  eps=0.30  recent_success=0.18  buf=246/44606 (0.55%)  elapsed=1093s
+[corr/qmix/hidden/s2] ep=1700/2000  eps=0.30  recent_success=0.26  buf=272/47119 (0.58%)  elapsed=1161s
+[corr/qmix/hidden/s2] ep=1800/2000  eps=0.30  recent_success=0.37  buf=309/49291 (0.63%)  elapsed=1221s
+[corr/qmix/hidden/s2] ep=1900/2000  eps=0.30  recent_success=0.69  buf=378/50000 (0.76%)  elapsed=1267s
+[corr/qmix/hidden/s2] ep=2000/2000  eps=0.30  recent_success=0.66  buf=442/50000 (0.88%)  elapsed=1310s
+DONE -> results/switches_qmix_correlated_hidden_s2.npz

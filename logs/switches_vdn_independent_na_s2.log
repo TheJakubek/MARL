@@ -1,0 +1,24 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration independent --mixer vdn --similarity obs --env switches --episodes 2000 --seed 2 --out results/switches_vdn_independent_na_s2.npz --save-every 100
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12070). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+[inde/vdn/obs/s2] ep=100/2000  eps=0.96  recent_success=0.00  buf=0/3000 (0.00%)  elapsed=19s
+[inde/vdn/obs/s2] ep=200/2000  eps=0.91  recent_success=0.00  buf=0/6000 (0.00%)  elapsed=72s
+[inde/vdn/obs/s2] ep=300/2000  eps=0.87  recent_success=0.03  buf=3/8940 (0.03%)  elapsed=122s
+[inde/vdn/obs/s2] ep=400/2000  eps=0.83  recent_success=0.06  buf=9/11868 (0.08%)  elapsed=176s
+[inde/vdn/obs/s2] ep=500/2000  eps=0.78  recent_success=0.15  buf=24/14665 (0.16%)  elapsed=227s
+[inde/vdn/obs/s2] ep=600/2000  eps=0.74  recent_success=0.20  buf=44/17374 (0.25%)  elapsed=277s
+[inde/vdn/obs/s2] ep=700/2000  eps=0.69  recent_success=0.56  buf=100/19701 (0.51%)  elapsed=318s
+[inde/vdn/obs/s2] ep=800/2000  eps=0.65  recent_success=0.76  buf=176/21636 (0.81%)  elapsed=352s
+[inde/vdn/obs/s2] ep=900/2000  eps=0.61  recent_success=0.82  buf=258/23499 (1.10%)  elapsed=385s
+[inde/vdn/obs/s2] ep=1000/2000  eps=0.56  recent_success=0.90  buf=348/25010 (1.39%)  elapsed=411s
+[inde/vdn/obs/s2] ep=1100/2000  eps=0.52  recent_success=0.99  buf=447/26303 (1.70%)  elapsed=434s
+[inde/vdn/obs/s2] ep=1200/2000  eps=0.48  recent_success=0.99  buf=546/27559 (1.98%)  elapsed=456s
+[inde/vdn/obs/s2] ep=1300/2000  eps=0.43  recent_success=0.98  buf=644/28739 (2.24%)  elapsed=476s
+[inde/vdn/obs/s2] ep=1400/2000  eps=0.39  recent_success=0.92  buf=736/29935 (2.46%)  elapsed=497s
+[inde/vdn/obs/s2] ep=1500/2000  eps=0.34  recent_success=0.94  buf=830/31277 (2.65%)  elapsed=520s
+[inde/vdn/obs/s2] ep=1600/2000  eps=0.30  recent_success=0.74  buf=904/32884 (2.75%)  elapsed=548s
+[inde/vdn/obs/s2] ep=1700/2000  eps=0.30  recent_success=0.52  buf=956/34958 (2.73%)  elapsed=585s
+[inde/vdn/obs/s2] ep=1800/2000  eps=0.30  recent_success=0.42  buf=998/37369 (2.67%)  elapsed=628s
+[inde/vdn/obs/s2] ep=1900/2000  eps=0.30  recent_success=0.21  buf=1019/40039 (2.55%)  elapsed=674s
+[inde/vdn/obs/s2] ep=2000/2000  eps=0.30  recent_success=0.33  buf=1052/42529 (2.47%)  elapsed=718s
+DONE -> results/switches_vdn_independent_na_s2.npz

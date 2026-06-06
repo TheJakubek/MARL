@@ -1,0 +1,24 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration correlated --mixer vdn --similarity q_values --env switches --episodes 2000 --seed 0 --out results/switches_vdn_correlated_q_values_s0.npz --save-every 100
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12070). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+[corr/vdn/q_values/s0] ep=100/2000  eps=0.96  recent_success=0.04  buf=4/2910 (0.14%)  elapsed=18s
+[corr/vdn/q_values/s0] ep=200/2000  eps=0.91  recent_success=0.02  buf=6/5865 (0.10%)  elapsed=66s
+[corr/vdn/q_values/s0] ep=300/2000  eps=0.87  recent_success=0.05  buf=11/8793 (0.13%)  elapsed=117s
+[corr/vdn/q_values/s0] ep=400/2000  eps=0.83  recent_success=0.11  buf=22/11669 (0.19%)  elapsed=171s
+[corr/vdn/q_values/s0] ep=500/2000  eps=0.78  recent_success=0.27  buf=49/14304 (0.34%)  elapsed=220s
+[corr/vdn/q_values/s0] ep=600/2000  eps=0.74  recent_success=0.48  buf=97/16640 (0.58%)  elapsed=265s
+[corr/vdn/q_values/s0] ep=700/2000  eps=0.69  recent_success=0.67  buf=164/18763 (0.87%)  elapsed=305s
+[corr/vdn/q_values/s0] ep=800/2000  eps=0.65  recent_success=0.75  buf=239/20808 (1.15%)  elapsed=341s
+[corr/vdn/q_values/s0] ep=900/2000  eps=0.61  recent_success=0.81  buf=320/22663 (1.41%)  elapsed=376s
+[corr/vdn/q_values/s0] ep=1000/2000  eps=0.56  recent_success=0.88  buf=408/24304 (1.68%)  elapsed=407s
+[corr/vdn/q_values/s0] ep=1100/2000  eps=0.52  recent_success=0.92  buf=500/26002 (1.92%)  elapsed=438s
+[corr/vdn/q_values/s0] ep=1200/2000  eps=0.48  recent_success=0.81  buf=581/27750 (2.09%)  elapsed=470s
+[corr/vdn/q_values/s0] ep=1300/2000  eps=0.43  recent_success=0.36  buf=617/30348 (2.03%)  elapsed=519s
+[corr/vdn/q_values/s0] ep=1400/2000  eps=0.39  recent_success=0.23  buf=640/32986 (1.94%)  elapsed=567s
+[corr/vdn/q_values/s0] ep=1500/2000  eps=0.34  recent_success=0.19  buf=659/35774 (1.84%)  elapsed=619s
+[corr/vdn/q_values/s0] ep=1600/2000  eps=0.30  recent_success=0.27  buf=686/38264 (1.79%)  elapsed=665s
+[corr/vdn/q_values/s0] ep=1700/2000  eps=0.30  recent_success=0.46  buf=732/40432 (1.81%)  elapsed=706s
+[corr/vdn/q_values/s0] ep=1800/2000  eps=0.30  recent_success=0.54  buf=786/42524 (1.85%)  elapsed=745s
+[corr/vdn/q_values/s0] ep=1900/2000  eps=0.30  recent_success=0.49  buf=835/44740 (1.87%)  elapsed=787s
+[corr/vdn/q_values/s0] ep=2000/2000  eps=0.30  recent_success=0.50  buf=885/46956 (1.88%)  elapsed=821s
+DONE -> results/switches_vdn_correlated_q_values_s0.npz

@@ -1,0 +1,24 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration correlated --mixer vdn --similarity obs --env switches --episodes 2000 --seed 1 --out results/switches_vdn_correlated_obs_s1.npz --save-every 100
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12070). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+[corr/vdn/obs/s1] ep=100/2000  eps=0.96  recent_success=0.02  buf=2/2984 (0.07%)  elapsed=13s
+[corr/vdn/obs/s1] ep=200/2000  eps=0.91  recent_success=0.07  buf=9/5900 (0.15%)  elapsed=65s
+[corr/vdn/obs/s1] ep=300/2000  eps=0.87  recent_success=0.04  buf=13/8822 (0.15%)  elapsed=118s
+[corr/vdn/obs/s1] ep=400/2000  eps=0.83  recent_success=0.22  buf=35/11585 (0.30%)  elapsed=171s
+[corr/vdn/obs/s1] ep=500/2000  eps=0.78  recent_success=0.27  buf=62/14273 (0.43%)  elapsed=223s
+[corr/vdn/obs/s1] ep=600/2000  eps=0.74  recent_success=0.44  buf=106/16686 (0.64%)  elapsed=269s
+[corr/vdn/obs/s1] ep=700/2000  eps=0.69  recent_success=0.59  buf=165/18964 (0.87%)  elapsed=312s
+[corr/vdn/obs/s1] ep=800/2000  eps=0.65  recent_success=0.78  buf=243/20875 (1.16%)  elapsed=348s
+[corr/vdn/obs/s1] ep=900/2000  eps=0.61  recent_success=0.80  buf=323/22836 (1.41%)  elapsed=386s
+[corr/vdn/obs/s1] ep=1000/2000  eps=0.56  recent_success=0.74  buf=397/24714 (1.61%)  elapsed=422s
+[corr/vdn/obs/s1] ep=1100/2000  eps=0.52  recent_success=0.47  buf=444/26925 (1.65%)  elapsed=463s
+[corr/vdn/obs/s1] ep=1200/2000  eps=0.48  recent_success=0.53  buf=497/29130 (1.71%)  elapsed=505s
+[corr/vdn/obs/s1] ep=1300/2000  eps=0.43  recent_success=0.40  buf=537/31513 (1.70%)  elapsed=550s
+[corr/vdn/obs/s1] ep=1400/2000  eps=0.39  recent_success=0.28  buf=565/33983 (1.66%)  elapsed=597s
+[corr/vdn/obs/s1] ep=1500/2000  eps=0.34  recent_success=0.42  buf=607/36329 (1.67%)  elapsed=640s
+[corr/vdn/obs/s1] ep=1600/2000  eps=0.30  recent_success=0.40  buf=647/38656 (1.67%)  elapsed=684s
+[corr/vdn/obs/s1] ep=1700/2000  eps=0.30  recent_success=0.70  buf=717/40430 (1.77%)  elapsed=718s
+[corr/vdn/obs/s1] ep=1800/2000  eps=0.30  recent_success=0.81  buf=798/41837 (1.91%)  elapsed=746s
+[corr/vdn/obs/s1] ep=1900/2000  eps=0.30  recent_success=0.67  buf=865/43470 (1.99%)  elapsed=778s
+[corr/vdn/obs/s1] ep=2000/2000  eps=0.30  recent_success=0.83  buf=948/44890 (2.11%)  elapsed=806s
+DONE -> results/switches_vdn_correlated_obs_s1.npz

@@ -1,0 +1,24 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration correlated --mixer qmix --similarity obs --env switches --episodes 2000 --seed 1 --out results/switches_qmix_correlated_obs_s1.npz --save-every 100
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12070). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+[corr/qmix/obs/s1] ep=100/2000  eps=0.96  recent_success=0.02  buf=2/2984 (0.07%)  elapsed=26s
+[corr/qmix/obs/s1] ep=200/2000  eps=0.91  recent_success=0.07  buf=9/5870 (0.15%)  elapsed=99s
+[corr/qmix/obs/s1] ep=300/2000  eps=0.87  recent_success=0.06  buf=15/8816 (0.17%)  elapsed=173s
+[corr/qmix/obs/s1] ep=400/2000  eps=0.83  recent_success=0.07  buf=22/11739 (0.19%)  elapsed=247s
+[corr/qmix/obs/s1] ep=500/2000  eps=0.78  recent_success=0.07  buf=29/14630 (0.20%)  elapsed=319s
+[corr/qmix/obs/s1] ep=600/2000  eps=0.74  recent_success=0.07  buf=36/17517 (0.21%)  elapsed=393s
+[corr/qmix/obs/s1] ep=700/2000  eps=0.69  recent_success=0.06  buf=42/20410 (0.21%)  elapsed=457s
+[corr/qmix/obs/s1] ep=800/2000  eps=0.65  recent_success=0.03  buf=45/23377 (0.19%)  elapsed=532s
+[corr/qmix/obs/s1] ep=900/2000  eps=0.61  recent_success=0.01  buf=46/26369 (0.17%)  elapsed=607s
+[corr/qmix/obs/s1] ep=1000/2000  eps=0.56  recent_success=0.00  buf=46/29369 (0.16%)  elapsed=683s
+[corr/qmix/obs/s1] ep=1100/2000  eps=0.52  recent_success=0.05  buf=51/32304 (0.16%)  elapsed=760s
+[corr/qmix/obs/s1] ep=1200/2000  eps=0.48  recent_success=0.01  buf=52/35298 (0.15%)  elapsed=835s
+[corr/qmix/obs/s1] ep=1300/2000  eps=0.43  recent_success=0.00  buf=52/38298 (0.14%)  elapsed=911s
+[corr/qmix/obs/s1] ep=1400/2000  eps=0.39  recent_success=0.00  buf=52/41298 (0.13%)  elapsed=986s
+[corr/qmix/obs/s1] ep=1500/2000  eps=0.34  recent_success=0.00  buf=52/44298 (0.12%)  elapsed=1062s
+[corr/qmix/obs/s1] ep=1600/2000  eps=0.30  recent_success=0.00  buf=52/47298 (0.11%)  elapsed=1137s
+[corr/qmix/obs/s1] ep=1700/2000  eps=0.30  recent_success=0.01  buf=53/50000 (0.11%)  elapsed=1212s
+[corr/qmix/obs/s1] ep=1800/2000  eps=0.30  recent_success=0.01  buf=52/50000 (0.10%)  elapsed=1288s
+[corr/qmix/obs/s1] ep=1900/2000  eps=0.30  recent_success=0.00  buf=45/50000 (0.09%)  elapsed=1363s
+[corr/qmix/obs/s1] ep=2000/2000  eps=0.30  recent_success=0.00  buf=36/50000 (0.07%)  elapsed=1439s
+DONE -> results/switches_qmix_correlated_obs_s1.npz

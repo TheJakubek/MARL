@@ -1,0 +1,1 @@
+/opt/slurm/spool/slurmd/job193123/slurm_script: line 9: uv: command not found

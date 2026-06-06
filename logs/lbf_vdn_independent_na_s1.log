@@ -1,0 +1,26 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration independent --mixer vdn --similarity obs --env lbf --episodes 2000 --seed 1 --out results/lbf_vdn_independent_na_s1.npz --save-every 100
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12070). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/gymnasium/utils/passive_env_checker.py:244: UserWarning: [33mWARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'list'>[0m
+  logger.warn(
+[inde/vdn/obs/s1] ep=100/2000  eps=0.96  recent_success=0.01  buf=1/4963 (0.02%)  elapsed=80s
+[inde/vdn/obs/s1] ep=200/2000  eps=0.91  recent_success=0.01  buf=2/9962 (0.02%)  elapsed=212s
+[inde/vdn/obs/s1] ep=300/2000  eps=0.87  recent_success=0.01  buf=3/14946 (0.02%)  elapsed=337s
+[inde/vdn/obs/s1] ep=400/2000  eps=0.83  recent_success=0.05  buf=8/19762 (0.04%)  elapsed=460s
+[inde/vdn/obs/s1] ep=500/2000  eps=0.78  recent_success=0.02  buf=10/24707 (0.04%)  elapsed=587s
+[inde/vdn/obs/s1] ep=600/2000  eps=0.74  recent_success=0.01  buf=11/29677 (0.04%)  elapsed=718s
+[inde/vdn/obs/s1] ep=700/2000  eps=0.69  recent_success=0.01  buf=12/34652 (0.03%)  elapsed=847s
+[inde/vdn/obs/s1] ep=800/2000  eps=0.65  recent_success=0.01  buf=13/39617 (0.03%)  elapsed=983s
+[inde/vdn/obs/s1] ep=900/2000  eps=0.61  recent_success=0.00  buf=13/44617 (0.03%)  elapsed=1121s
+[inde/vdn/obs/s1] ep=1000/2000  eps=0.56  recent_success=0.01  buf=14/49593 (0.03%)  elapsed=1263s
+[inde/vdn/obs/s1] ep=1100/2000  eps=0.52  recent_success=0.03  buf=17/50000 (0.03%)  elapsed=1397s
+[inde/vdn/obs/s1] ep=1200/2000  eps=0.48  recent_success=0.00  buf=15/50000 (0.03%)  elapsed=1535s
+[inde/vdn/obs/s1] ep=1300/2000  eps=0.43  recent_success=0.01  buf=15/50000 (0.03%)  elapsed=1670s
+[inde/vdn/obs/s1] ep=1400/2000  eps=0.39  recent_success=0.00  buf=10/50000 (0.02%)  elapsed=1806s
+[inde/vdn/obs/s1] ep=1500/2000  eps=0.34  recent_success=0.01  buf=9/50000 (0.02%)  elapsed=1941s
+[inde/vdn/obs/s1] ep=1600/2000  eps=0.30  recent_success=0.01  buf=9/50000 (0.02%)  elapsed=2077s
+[inde/vdn/obs/s1] ep=1700/2000  eps=0.30  recent_success=0.00  buf=8/50000 (0.02%)  elapsed=2213s
+[inde/vdn/obs/s1] ep=1800/2000  eps=0.30  recent_success=0.00  buf=7/50000 (0.01%)  elapsed=2342s
+[inde/vdn/obs/s1] ep=1900/2000  eps=0.30  recent_success=0.00  buf=7/50000 (0.01%)  elapsed=2472s
+[inde/vdn/obs/s1] ep=2000/2000  eps=0.30  recent_success=0.00  buf=6/50000 (0.01%)  elapsed=2598s
+DONE -> results/lbf_vdn_independent_na_s1.npz

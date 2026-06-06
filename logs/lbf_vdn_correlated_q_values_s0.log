@@ -1,0 +1,14 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration correlated --mixer vdn --similarity q_values --env lbf --episodes 2000 --seed 0 --out results/lbf_vdn_correlated_q_values_s0.npz --save-every 100
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12070). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/gymnasium/utils/passive_env_checker.py:244: UserWarning: [33mWARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'list'>[0m
+  logger.warn(
+[corr/vdn/q_values/s0] ep=100/2000  eps=0.96  recent_success=0.07  buf=7/4856 (0.14%)  elapsed=79s
+[corr/vdn/q_values/s0] ep=200/2000  eps=0.91  recent_success=0.14  buf=21/9505 (0.22%)  elapsed=203s
+[corr/vdn/q_values/s0] ep=300/2000  eps=0.87  recent_success=0.05  buf=26/14396 (0.18%)  elapsed=319s
+[corr/vdn/q_values/s0] ep=400/2000  eps=0.83  recent_success=0.05  buf=31/19295 (0.16%)  elapsed=449s
+[corr/vdn/q_values/s0] ep=500/2000  eps=0.78  recent_success=0.09  buf=40/24003 (0.17%)  elapsed=573s
+[corr/vdn/q_values/s0] ep=600/2000  eps=0.74  recent_success=0.02  buf=42/28942 (0.15%)  elapsed=704s
+[corr/vdn/q_values/s0] ep=700/2000  eps=0.69  recent_success=0.03  buf=45/33868 (0.13%)  elapsed=837s
+[corr/vdn/q_values/s0] ep=800/2000  eps=0.65  recent_success=0.02  buf=47/38780 (0.12%)  elapsed=971s
+[corr/vdn/q_values/s0] ep=900/2000  eps=0.61  recent_success=0.03  buf=50/43684 (0.11%)  elapsed=1104s

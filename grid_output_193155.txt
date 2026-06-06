@@ -1,0 +1,78 @@
+Planned 48 jobs (concurrency=2):
+  switches_vdn_independent_na_s0
+  switches_vdn_independent_na_s1
+  switches_vdn_independent_na_s2
+  switches_vdn_correlated_obs_s0
+  switches_vdn_correlated_q_values_s0
+  switches_vdn_correlated_hidden_s0
+  switches_vdn_correlated_obs_s1
+  switches_vdn_correlated_q_values_s1
+  switches_vdn_correlated_hidden_s1
+  switches_vdn_correlated_obs_s2
+  switches_vdn_correlated_q_values_s2
+  switches_vdn_correlated_hidden_s2
+  switches_qmix_independent_na_s0
+  switches_qmix_independent_na_s1
+  switches_qmix_independent_na_s2
+  switches_qmix_correlated_obs_s0
+  switches_qmix_correlated_q_values_s0
+  switches_qmix_correlated_hidden_s0
+  switches_qmix_correlated_obs_s1
+  switches_qmix_correlated_q_values_s1
+  switches_qmix_correlated_hidden_s1
+  switches_qmix_correlated_obs_s2
+  switches_qmix_correlated_q_values_s2
+  switches_qmix_correlated_hidden_s2
+  lbf_vdn_independent_na_s0
+  lbf_vdn_independent_na_s1
+  lbf_vdn_independent_na_s2
+  lbf_vdn_correlated_obs_s0
+  lbf_vdn_correlated_q_values_s0
+  lbf_vdn_correlated_hidden_s0
+  lbf_vdn_correlated_obs_s1
+  lbf_vdn_correlated_q_values_s1
+  lbf_vdn_correlated_hidden_s1
+  lbf_vdn_correlated_obs_s2
+  lbf_vdn_correlated_q_values_s2
+  lbf_vdn_correlated_hidden_s2
+  lbf_qmix_independent_na_s0
+  lbf_qmix_independent_na_s1
+  lbf_qmix_independent_na_s2
+  lbf_qmix_correlated_obs_s0
+  lbf_qmix_correlated_q_values_s0
+  lbf_qmix_correlated_hidden_s0
+  lbf_qmix_correlated_obs_s1
+  lbf_qmix_correlated_q_values_s1
+  lbf_qmix_correlated_hidden_s1
+  lbf_qmix_correlated_obs_s2
+  lbf_qmix_correlated_q_values_s2
+  lbf_qmix_correlated_hidden_s2
+[1/48] switches_vdn_independent_na_s1  status=ok  (776s)  total_elapsed=776s
+[2/48] switches_vdn_independent_na_s0  status=ok  (776s)  total_elapsed=776s
+[3/48] switches_vdn_independent_na_s2  status=ok  (726s)  total_elapsed=1502s
+[4/48] switches_vdn_correlated_obs_s0  status=ok  (786s)  total_elapsed=1562s
+[5/48] switches_vdn_correlated_hidden_s0  status=ok  (763s)  total_elapsed=2325s
+[6/48] switches_vdn_correlated_q_values_s0  status=ok  (831s)  total_elapsed=2333s
+[7/48] switches_vdn_correlated_obs_s1  status=ok  (815s)  total_elapsed=3140s
+[8/48] switches_vdn_correlated_q_values_s1  status=ok  (807s)  total_elapsed=3141s
+[9/48] switches_vdn_correlated_obs_s2  status=ok  (716s)  total_elapsed=3857s
+[10/48] switches_vdn_correlated_hidden_s1  status=ok  (725s)  total_elapsed=3866s
+[11/48] switches_vdn_correlated_hidden_s2  status=ok  (641s)  total_elapsed=4506s
+[12/48] switches_vdn_correlated_q_values_s2  status=ok  (687s)  total_elapsed=4544s
+[13/48] switches_qmix_independent_na_s0  status=ok  (877s)  total_elapsed=5383s
+[14/48] switches_qmix_independent_na_s1  status=ok  (1437s)  total_elapsed=5981s
+[15/48] switches_qmix_independent_na_s2  status=ok  (1319s)  total_elapsed=6702s
+[16/48] switches_qmix_correlated_obs_s0  status=ok  (1169s)  total_elapsed=7150s
+[17/48] switches_qmix_correlated_q_values_s0  status=ok  (904s)  total_elapsed=7606s
+[18/48] switches_qmix_correlated_hidden_s0  status=ok  (908s)  total_elapsed=8058s
+[19/48] switches_qmix_correlated_obs_s1  status=ok  (1448s)  total_elapsed=9055s
+[20/48] switches_qmix_correlated_q_values_s1  status=ok  (1223s)  total_elapsed=9281s
+[21/48] switches_qmix_correlated_hidden_s1  status=ok  (1199s)  total_elapsed=10254s
+[22/48] switches_qmix_correlated_obs_s2  status=ok  (1252s)  total_elapsed=10533s
+[23/48] switches_qmix_correlated_q_values_s2  status=ok  (1304s)  total_elapsed=11558s
+[24/48] switches_qmix_correlated_hidden_s2  status=ok  (1320s)  total_elapsed=11854s
+[25/48] lbf_vdn_independent_na_s0  status=ok  (2559s)  total_elapsed=14117s
+[26/48] lbf_vdn_independent_na_s1  status=ok  (2608s)  total_elapsed=14462s
+[27/48] lbf_vdn_independent_na_s2  status=ok  (2625s)  total_elapsed=16742s
+[28/48] lbf_vdn_correlated_obs_s0  status=ok  (2491s)  total_elapsed=16952s
+slurmstepd: error: *** JOB 193155 ON asusgpu2 CANCELLED AT 2026-06-05T21:31:49 DUE TO TIME LIMIT ***
