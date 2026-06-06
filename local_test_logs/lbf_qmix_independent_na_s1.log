@@ -1,0 +1,4 @@
+# C:\Projects\MARL\.venv\Scripts\python.exe long_run.py --exploration independent --mixer qmix --similarity obs --env lbf --episodes 50 --seed 1 --out local_test_results\lbf_qmix_independent_na_s1.npz --save-every 100
+C:\Projects\MARL\.venv\Lib\site-packages\gymnasium\utils\passive_env_checker.py:244: UserWarning: [33mWARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'list'>[0m
+  logger.warn(
+DONE -> local_test_results\lbf_qmix_independent_na_s1.npz

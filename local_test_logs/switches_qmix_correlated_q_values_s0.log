@@ -1,0 +1,2 @@
+# C:\Projects\MARL\.venv\Scripts\python.exe long_run.py --exploration correlated --mixer qmix --similarity q_values --env switches --episodes 50 --seed 0 --out local_test_results\switches_qmix_correlated_q_values_s0.npz --save-every 100
+DONE -> local_test_results\switches_qmix_correlated_q_values_s0.npz

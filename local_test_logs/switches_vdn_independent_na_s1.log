@@ -1,0 +1,2 @@
+# C:\Projects\MARL\.venv\Scripts\python.exe long_run.py --exploration independent --mixer vdn --similarity obs --env switches --episodes 50 --seed 1 --out local_test_results\switches_vdn_independent_na_s1.npz --save-every 100
+DONE -> local_test_results\switches_vdn_independent_na_s1.npz
