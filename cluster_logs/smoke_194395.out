@@ -1,0 +1,44 @@
+=== Job info ===
+Job ID:    194395
+Node:      asusgpu2
+GPU:       0
+Working:   /home/jwozniak/MARL
+Mon Jun  8 20:01:54 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 565.57.01              Driver Version: 565.57.01      CUDA Version: 12.7     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2080 Ti     On  |   00000000:04:00.0 Off |                  N/A |
+| 27%   26C    P8              1W /  250W |       1MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+================
+torch: 2.5.1+cu121
+cuda: True
+device: NVIDIA GeForce RTX 2080 Ti
+Planned 4 jobs (concurrency=2):
+  hallway_vdn_independent_na_s0 [done]
+  hallway_vdn_independent_na_s1 [done]
+  hallway_vdn_correlated_obs_s0 [done]
+  hallway_vdn_correlated_obs_s1 [done]
+[1/4] hallway_vdn_independent_na_s0  status=skipped  (0s)  total_elapsed=0s
+[2/4] hallway_vdn_independent_na_s1  status=skipped  (0s)  total_elapsed=0s
+[3/4] hallway_vdn_correlated_obs_s0  status=skipped  (0s)  total_elapsed=0s
+[4/4] hallway_vdn_correlated_obs_s1  status=skipped  (0s)  total_elapsed=0s
+All done in 0s.
+=== Smoke OK. Files produced: ===
+hallway_vdn_correlated_obs_s0.npz
+hallway_vdn_correlated_obs_s1.npz
+hallway_vdn_independent_na_s0.npz
+hallway_vdn_independent_na_s1.npz
