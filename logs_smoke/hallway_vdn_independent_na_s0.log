@@ -1,0 +1,6 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration independent --mixer vdn --similarity obs --env hallway --episodes 200 --seed 0 --out results_smoke/hallway_vdn_independent_na_s0.npz --save-every 100 --parameter-sharing
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:187: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12070). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+[inde/vdn/obs/s0] ep=100/200  eps=0.57  recent_success=0.12  buf=12/1476 (0.81%)  elapsed=6s
+[inde/vdn/obs/s0] ep=200/200  eps=0.30  recent_success=0.48  buf=60/2505 (2.40%)  elapsed=13s
+DONE -> results_smoke/hallway_vdn_independent_na_s0.npz
