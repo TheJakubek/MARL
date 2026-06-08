@@ -1,15 +1,15 @@
 [project]
 name = "rl-hw"
 version = "0.1.0"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 dependencies = [
-     "lbforaging>=2.0.0",
-     "matplotlib>=3.10.9",
-     "numpy>=2.4.6",
-     "scipy>=1.17.1",
-     "torch==2.4.1",
-     "nvidia-cudnn-cu12",
-     "nvidia-nccl-cu12",
+    "lbforaging>=2.0.0",
+    "matplotlib>=3.10.9",
+    "numpy<2.0",
+    "scipy>=1.13",
+    "torch==2.5.1",
+    "nvidia-cudnn-cu12==9.1.0.70",
+    "nvidia-nccl-cu12==2.21.5",
 ]
 
 [[tool.uv.index]]

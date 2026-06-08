@@ -40,8 +40,13 @@ else
     PY="python"
 fi
 
+# Point dynamic linker at cudnn/nccl shipped in the venv so torch can find them.
+VENV_NV="$(uv run python -c 'import os, nvidia; print(os.path.dirname(nvidia.__file__))')"
+export LD_LIBRARY_PATH="${VENV_NV}/cudnn/lib:${VENV_NV}/nccl/lib:${LD_LIBRARY_PATH:-}"
+echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+
 echo "=== Verifying CUDA visibility ==="
-$PY -c "import torch; print('cuda:', torch.cuda.is_available()); print('device:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'cpu')"
+$PY -c "import torch; print('torch:', torch.__version__); print('cuda available:', torch.cuda.is_available()); print('device:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'cpu')"
 echo "================"
 
 CONCURRENCY=4
