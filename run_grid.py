@@ -40,7 +40,8 @@ def is_complete(out_path: Path, episodes: int) -> bool:
 
 def run_one(args_tuple):
     """Worker: subprocess.run a single long_run.py job."""
-    env, mixer, exploration, similarity, seed, episodes, out_dir, log_dir = args_tuple
+    (env, mixer, exploration, similarity, seed, episodes,
+     out_dir, log_dir, parameter_sharing, balanced_buffer) = args_tuple
     tag = make_tag(env, mixer, exploration, similarity, seed)
     out_path = Path(out_dir) / f"{tag}.npz"
     log_path = Path(log_dir) / f"{tag}.log"
@@ -60,6 +61,10 @@ def run_one(args_tuple):
         "--out", str(out_path),
         "--save-every", "100",
     ]
+    if parameter_sharing:
+        cmd.append("--parameter-sharing")
+    if balanced_buffer:
+        cmd.append("--balanced-buffer")
     t0 = time.time()
     with open(log_path, "w") as f:
         f.write(f"# {' '.join(cmd)}\n")
@@ -83,6 +88,10 @@ def main():
                     help="Max parallel jobs. Set to 1 to serialize.")
     ap.add_argument("--out-dir", default="results")
     ap.add_argument("--log-dir", default="logs")
+    ap.add_argument("--parameter-sharing", action="store_true",
+                    help="Pass --parameter-sharing to every job.")
+    ap.add_argument("--balanced-buffer", action="store_true",
+                    help="Pass --balanced-buffer to every job.")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -97,7 +106,11 @@ def main():
     ):
         sims = args.similarities if expl == "correlated" else ["obs"]
         for sim in sims:
-            jobs.append((env, mixer, expl, sim, seed, args.episodes, args.out_dir, args.log_dir))
+            jobs.append((
+                env, mixer, expl, sim, seed, args.episodes,
+                args.out_dir, args.log_dir,
+                args.parameter_sharing, args.balanced_buffer,
+            ))
 
     print(f"Planned {len(jobs)} jobs (concurrency={args.concurrency}):")
     for j in jobs:
