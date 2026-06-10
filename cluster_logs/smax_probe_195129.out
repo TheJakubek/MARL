@@ -1,0 +1,65 @@
+=== Job info ===
+Job ID:    195129
+Node:      asusgpu2
+GPU:       0
+Wed Jun 10 18:08:54 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 565.57.01              Driver Version: 565.57.01      CUDA Version: 12.7     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2080 Ti     On  |   00000000:84:00.0 Off |                  N/A |
+| 27%   26C    P8              6W /  250W |       1MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+================
+LD_LIBRARY_PATH=/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib:/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/nvidia/nccl/lib:
+=== JAX devices ===
+[CudaDevice(id=0)]
+backend: gpu
+
+=== Building 2s3z env ===
+agents: ['ally_0', 'ally_1', 'ally_2', 'ally_3', 'ally_4']
+num_agents: 5
+  ally_0: obs=<jaxmarl.environments.spaces.Box object at 0x72050fc54fe0>  act=<jaxmarl.environments.spaces.Discrete object at 0x72050f4a70e0>
+  ally_1: obs=<jaxmarl.environments.spaces.Box object at 0x720511bcb470>  act=<jaxmarl.environments.spaces.Discrete object at 0x72050f4a7080>
+  ally_2: obs=<jaxmarl.environments.spaces.Box object at 0x72074840c440>  act=<jaxmarl.environments.spaces.Discrete object at 0x72050f4a7260>
+  ally_3: obs=<jaxmarl.environments.spaces.Box object at 0x72050f99e540>  act=<jaxmarl.environments.spaces.Discrete object at 0x72050f4a7470>
+  ally_4: obs=<jaxmarl.environments.spaces.Box object at 0x72050f99fce0>  act=<jaxmarl.environments.spaces.Discrete object at 0x72050f4a7200>
+
+=== Reset ===
+  obs[ally_0].shape = (127,)  dtype=float32
+  obs[ally_1].shape = (127,)  dtype=float32
+  obs[ally_2].shape = (127,)  dtype=float32
+  obs[ally_3].shape = (127,)  dtype=float32
+  obs[ally_4].shape = (127,)  dtype=float32
+  obs[world_state].shape = (120,)  dtype=float32
+  world_state.shape = (120,)
+  state type: State
+
+=== Single step (no-op = action 0) ===
+  rewards: {'ally_0': Array(0., dtype=float32), 'ally_1': Array(0., dtype=float32), 'ally_2': Array(0., dtype=float32), 'ally_3': Array(0., dtype=float32), 'ally_4': Array(0., dtype=float32)}
+  dones: {'__all__': Array(False, dtype=bool), 'ally_0': Array(False, dtype=bool), 'ally_1': Array(False, dtype=bool), 'ally_2': Array(False, dtype=bool), 'ally_3': Array(False, dtype=bool), 'ally_4': Array(False, dtype=bool)}
+  info keys: []
+
+=== Available actions ===
+  ally_0: avail=[1 1 1 1 1 0 0 0 0 0]  (sum=5)
+  ally_1: avail=[1 1 1 1 1 0 0 0 0 0]  (sum=5)
+  ally_2: avail=[1 1 1 1 1 0 0 0 0 0]  (sum=5)
+  ally_3: avail=[1 1 1 1 1 0 0 0 0 0]  (sum=5)
+  ally_4: avail=[1 1 1 1 1 0 0 0 0 0]  (sum=5)
+
+=== JIT-compiled step ===
+  jit step compiled and ran ok
+
+=== ALL OK ===

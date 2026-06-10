@@ -1,0 +1,336 @@
+=== Job info ===
+Job ID:    194397
+Node:      asusgpu2
+GPU:       0
+Date:      Mon Jun  8 08:10:29 PM CEST 2026
+Working:   /home/jwozniak/MARL
+Mon Jun  8 20:10:29 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 565.57.01              Driver Version: 565.57.01      CUDA Version: 12.7     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2080 Ti     On  |   00000000:04:00.0 Off |                  N/A |
+| 27%   28C    P8              1W /  250W |       1MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+================
+LD_LIBRARY_PATH=/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib:/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/nvidia/nccl/lib:
+=== Verifying CUDA visibility ===
+torch: 2.5.1+cu121
+cuda available: True
+device: NVIDIA GeForce RTX 2080 Ti
+================
+=== [1/2] Hallway: fast env ===
+Planned 40 jobs (concurrency=4):
+  hallway_vdn_independent_na_s0
+  hallway_vdn_independent_na_s1
+  hallway_vdn_independent_na_s2
+  hallway_vdn_independent_na_s3
+  hallway_vdn_independent_na_s4
+  hallway_vdn_correlated_obs_s0
+  hallway_vdn_correlated_q_values_s0
+  hallway_vdn_correlated_hidden_s0
+  hallway_vdn_correlated_obs_s1
+  hallway_vdn_correlated_q_values_s1
+  hallway_vdn_correlated_hidden_s1
+  hallway_vdn_correlated_obs_s2
+  hallway_vdn_correlated_q_values_s2
+  hallway_vdn_correlated_hidden_s2
+  hallway_vdn_correlated_obs_s3
+  hallway_vdn_correlated_q_values_s3
+  hallway_vdn_correlated_hidden_s3
+  hallway_vdn_correlated_obs_s4
+  hallway_vdn_correlated_q_values_s4
+  hallway_vdn_correlated_hidden_s4
+  hallway_qmix_independent_na_s0
+  hallway_qmix_independent_na_s1
+  hallway_qmix_independent_na_s2
+  hallway_qmix_independent_na_s3
+  hallway_qmix_independent_na_s4
+  hallway_qmix_correlated_obs_s0
+  hallway_qmix_correlated_q_values_s0
+  hallway_qmix_correlated_hidden_s0
+  hallway_qmix_correlated_obs_s1
+  hallway_qmix_correlated_q_values_s1
+  hallway_qmix_correlated_hidden_s1
+  hallway_qmix_correlated_obs_s2
+  hallway_qmix_correlated_q_values_s2
+  hallway_qmix_correlated_hidden_s2
+  hallway_qmix_correlated_obs_s3
+  hallway_qmix_correlated_q_values_s3
+  hallway_qmix_correlated_hidden_s3
+  hallway_qmix_correlated_obs_s4
+  hallway_qmix_correlated_q_values_s4
+  hallway_qmix_correlated_hidden_s4
+[1/40] hallway_vdn_independent_na_s1  status=ok  (59s)  total_elapsed=59s
+[2/40] hallway_vdn_independent_na_s0  status=ok  (59s)  total_elapsed=59s
+[3/40] hallway_vdn_independent_na_s3  status=ok  (60s)  total_elapsed=60s
+[4/40] hallway_vdn_independent_na_s2  status=ok  (60s)  total_elapsed=60s
+[5/40] hallway_vdn_correlated_obs_s0  status=ok  (56s)  total_elapsed=115s
+[6/40] hallway_vdn_independent_na_s4  status=ok  (57s)  total_elapsed=116s
+[7/40] hallway_vdn_correlated_q_values_s0  status=ok  (59s)  total_elapsed=119s
+[8/40] hallway_vdn_correlated_hidden_s0  status=ok  (59s)  total_elapsed=119s
+[9/40] hallway_vdn_correlated_obs_s1  status=ok  (50s)  total_elapsed=164s
+[10/40] hallway_vdn_correlated_q_values_s1  status=ok  (51s)  total_elapsed=167s
+[11/40] hallway_vdn_correlated_obs_s2  status=ok  (53s)  total_elapsed=172s
+[12/40] hallway_vdn_correlated_hidden_s1  status=ok  (54s)  total_elapsed=173s
+[13/40] hallway_vdn_correlated_q_values_s2  status=ok  (53s)  total_elapsed=218s
+[14/40] hallway_vdn_correlated_hidden_s2  status=ok  (55s)  total_elapsed=222s
+[15/40] hallway_vdn_correlated_obs_s3  status=ok  (53s)  total_elapsed=225s
+[16/40] hallway_vdn_correlated_q_values_s3  status=ok  (53s)  total_elapsed=226s
+[17/40] hallway_vdn_correlated_hidden_s3  status=ok  (54s)  total_elapsed=271s
+[18/40] hallway_vdn_correlated_obs_s4  status=ok  (53s)  total_elapsed=275s
+[19/40] hallway_vdn_correlated_q_values_s4  status=ok  (56s)  total_elapsed=281s
+[20/40] hallway_vdn_correlated_hidden_s4  status=ok  (55s)  total_elapsed=281s
+[21/40] hallway_qmix_independent_na_s0  status=ok  (72s)  total_elapsed=343s
+[22/40] hallway_qmix_independent_na_s3  status=ok  (86s)  total_elapsed=367s
+[23/40] hallway_qmix_independent_na_s1  status=ok  (98s)  total_elapsed=373s
+[24/40] hallway_qmix_independent_na_s4  status=ok  (72s)  total_elapsed=415s
+[25/40] hallway_qmix_independent_na_s2  status=ok  (142s)  total_elapsed=423s
+[26/40] hallway_qmix_correlated_q_values_s0  status=ok  (79s)  total_elapsed=452s
+[27/40] hallway_qmix_correlated_obs_s0  status=ok  (93s)  total_elapsed=460s
+[28/40] hallway_qmix_correlated_obs_s1  status=ok  (73s)  total_elapsed=496s
+[29/40] hallway_qmix_correlated_hidden_s0  status=ok  (96s)  total_elapsed=511s
+[30/40] hallway_qmix_correlated_q_values_s1  status=ok  (74s)  total_elapsed=526s
+[31/40] hallway_qmix_correlated_hidden_s1  status=ok  (79s)  total_elapsed=539s
+[32/40] hallway_qmix_correlated_obs_s3  status=ok  (81s)  total_elapsed=620s
+[33/40] hallway_qmix_correlated_obs_s2  status=ok  (141s)  total_elapsed=637s
+[34/40] hallway_qmix_correlated_q_values_s2  status=ok  (148s)  total_elapsed=659s
+[35/40] hallway_qmix_correlated_hidden_s2  status=ok  (149s)  total_elapsed=675s
+[36/40] hallway_qmix_correlated_q_values_s3  status=ok  (74s)  total_elapsed=694s
+[37/40] hallway_qmix_correlated_hidden_s3  status=ok  (73s)  total_elapsed=710s
+[38/40] hallway_qmix_correlated_q_values_s4  status=ok  (64s)  total_elapsed=739s
+[39/40] hallway_qmix_correlated_obs_s4  status=ok  (82s)  total_elapsed=741s
+[40/40] hallway_qmix_correlated_hidden_s4  status=ok  (53s)  total_elapsed=747s
+All done in 747s.
+=== [2/2] LBF: hard env ===
+Planned 40 jobs (concurrency=4):
+  lbf_vdn_independent_na_s0
+  lbf_vdn_independent_na_s1
+  lbf_vdn_independent_na_s2
+  lbf_vdn_independent_na_s3
+  lbf_vdn_independent_na_s4
+  lbf_vdn_correlated_obs_s0
+  lbf_vdn_correlated_q_values_s0
+  lbf_vdn_correlated_hidden_s0
+  lbf_vdn_correlated_obs_s1
+  lbf_vdn_correlated_q_values_s1
+  lbf_vdn_correlated_hidden_s1
+  lbf_vdn_correlated_obs_s2
+  lbf_vdn_correlated_q_values_s2
+  lbf_vdn_correlated_hidden_s2
+  lbf_vdn_correlated_obs_s3
+  lbf_vdn_correlated_q_values_s3
+  lbf_vdn_correlated_hidden_s3
+  lbf_vdn_correlated_obs_s4
+  lbf_vdn_correlated_q_values_s4
+  lbf_vdn_correlated_hidden_s4
+  lbf_qmix_independent_na_s0
+  lbf_qmix_independent_na_s1
+  lbf_qmix_independent_na_s2
+  lbf_qmix_independent_na_s3
+  lbf_qmix_independent_na_s4
+  lbf_qmix_correlated_obs_s0
+  lbf_qmix_correlated_q_values_s0
+  lbf_qmix_correlated_hidden_s0
+  lbf_qmix_correlated_obs_s1
+  lbf_qmix_correlated_q_values_s1
+  lbf_qmix_correlated_hidden_s1
+  lbf_qmix_correlated_obs_s2
+  lbf_qmix_correlated_q_values_s2
+  lbf_qmix_correlated_hidden_s2
+  lbf_qmix_correlated_obs_s3
+  lbf_qmix_correlated_q_values_s3
+  lbf_qmix_correlated_hidden_s3
+  lbf_qmix_correlated_obs_s4
+  lbf_qmix_correlated_q_values_s4
+  lbf_qmix_correlated_hidden_s4
+[1/40] lbf_vdn_independent_na_s0  status=ok  (887s)  total_elapsed=887s
+[2/40] lbf_vdn_independent_na_s3  status=ok  (889s)  total_elapsed=889s
+[3/40] lbf_vdn_independent_na_s1  status=ok  (890s)  total_elapsed=890s
+[4/40] lbf_vdn_independent_na_s2  status=ok  (891s)  total_elapsed=891s
+[5/40] lbf_vdn_independent_na_s4  status=ok  (891s)  total_elapsed=1778s
+[6/40] lbf_vdn_correlated_q_values_s0  status=ok  (905s)  total_elapsed=1795s
+[7/40] lbf_vdn_correlated_hidden_s0  status=ok  (910s)  total_elapsed=1802s
+[8/40] lbf_vdn_correlated_obs_s0  status=ok  (914s)  total_elapsed=1803s
+[9/40] lbf_vdn_correlated_obs_s1  status=ok  (913s)  total_elapsed=2691s
+[10/40] lbf_vdn_correlated_q_values_s1  status=ok  (914s)  total_elapsed=2709s
+[11/40] lbf_vdn_correlated_obs_s2  status=ok  (907s)  total_elapsed=2710s
+[12/40] lbf_vdn_correlated_hidden_s1  status=ok  (915s)  total_elapsed=2717s
+[13/40] lbf_vdn_correlated_q_values_s2  status=ok  (906s)  total_elapsed=3597s
+[14/40] lbf_vdn_correlated_obs_s3  status=ok  (909s)  total_elapsed=3619s
+[15/40] lbf_vdn_correlated_hidden_s2  status=ok  (927s)  total_elapsed=3636s
+[16/40] lbf_vdn_correlated_q_values_s3  status=ok  (926s)  total_elapsed=3643s
+[17/40] lbf_vdn_correlated_hidden_s3  status=ok  (910s)  total_elapsed=4508s
+[18/40] lbf_vdn_correlated_obs_s4  status=ok  (909s)  total_elapsed=4528s
+[19/40] lbf_vdn_correlated_q_values_s4  status=ok  (917s)  total_elapsed=4553s
+[20/40] lbf_vdn_correlated_hidden_s4  status=ok  (927s)  total_elapsed=4570s
+[21/40] lbf_qmix_independent_na_s0  status=ok  (1057s)  total_elapsed=5565s
+[22/40] lbf_qmix_independent_na_s1  status=ok  (1051s)  total_elapsed=5579s
+[23/40] lbf_qmix_independent_na_s2  status=ok  (1062s)  total_elapsed=5615s
+[24/40] lbf_qmix_independent_na_s3  status=ok  (1063s)  total_elapsed=5633s
+[25/40] lbf_qmix_independent_na_s4  status=ok  (1050s)  total_elapsed=6615s
+[26/40] lbf_qmix_correlated_obs_s0  status=ok  (1065s)  total_elapsed=6644s
+[27/40] lbf_qmix_correlated_q_values_s0  status=ok  (1097s)  total_elapsed=6712s
+[28/40] lbf_qmix_correlated_hidden_s0  status=ok  (1085s)  total_elapsed=6718s
+[29/40] lbf_qmix_correlated_obs_s1  status=ok  (1102s)  total_elapsed=7717s
+[30/40] lbf_qmix_correlated_q_values_s1  status=ok  (1093s)  total_elapsed=7736s
+[31/40] lbf_qmix_correlated_obs_s2  status=ok  (1100s)  total_elapsed=7818s
+[32/40] lbf_qmix_correlated_hidden_s1  status=ok  (1108s)  total_elapsed=7819s
+[33/40] lbf_qmix_correlated_q_values_s2  status=ok  (1094s)  total_elapsed=8811s
+[34/40] lbf_qmix_correlated_hidden_s2  status=ok  (1083s)  total_elapsed=8820s
+[35/40] lbf_qmix_correlated_q_values_s3  status=ok  (1094s)  total_elapsed=8913s
+[36/40] lbf_qmix_correlated_obs_s3  status=ok  (1100s)  total_elapsed=8918s
+[37/40] lbf_qmix_correlated_hidden_s3  status=ok  (1091s)  total_elapsed=9902s
+[38/40] lbf_qmix_correlated_obs_s4  status=ok  (1089s)  total_elapsed=9909s
+[39/40] lbf_qmix_correlated_hidden_s4  status=ok  (1062s)  total_elapsed=9980s
+[40/40] lbf_qmix_correlated_q_values_s4  status=ok  (1067s)  total_elapsed=9980s
+All done in 9980s.
+=== All done at Mon Jun  8 11:09:20 PM CEST 2026 ===
+=== Generating plots ===
+Available run groups:
+  ('hallway', 'qmix', 'correlated', 'hidden')  -> 5 seed(s)
+  ('hallway', 'qmix', 'correlated', 'obs')  -> 5 seed(s)
+  ('hallway', 'qmix', 'correlated', 'q_values')  -> 5 seed(s)
+  ('hallway', 'qmix', 'independent', 'na')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'hidden')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'obs')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'q_values')  -> 5 seed(s)
+  ('hallway', 'vdn', 'independent', 'na')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'hidden')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'obs')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'q_values')  -> 5 seed(s)
+  ('lbf', 'qmix', 'independent', 'na')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'hidden')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'obs')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'q_values')  -> 5 seed(s)
+  ('lbf', 'vdn', 'independent', 'na')  -> 5 seed(s)
+  ('switches', 'qmix', 'correlated', 'hidden')  -> 3 seed(s)
+  ('switches', 'qmix', 'correlated', 'obs')  -> 3 seed(s)
+  ('switches', 'qmix', 'correlated', 'q_values')  -> 3 seed(s)
+  ('switches', 'qmix', 'independent', 'na')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'hidden')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'obs')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'q_values')  -> 3 seed(s)
+  ('switches', 'vdn', 'independent', 'na')  -> 3 seed(s)
+saved plot_hallway_vdn.png
+Available run groups:
+  ('hallway', 'qmix', 'correlated', 'hidden')  -> 5 seed(s)
+  ('hallway', 'qmix', 'correlated', 'obs')  -> 5 seed(s)
+  ('hallway', 'qmix', 'correlated', 'q_values')  -> 5 seed(s)
+  ('hallway', 'qmix', 'independent', 'na')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'hidden')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'obs')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'q_values')  -> 5 seed(s)
+  ('hallway', 'vdn', 'independent', 'na')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'hidden')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'obs')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'q_values')  -> 5 seed(s)
+  ('lbf', 'qmix', 'independent', 'na')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'hidden')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'obs')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'q_values')  -> 5 seed(s)
+  ('lbf', 'vdn', 'independent', 'na')  -> 5 seed(s)
+  ('switches', 'qmix', 'correlated', 'hidden')  -> 3 seed(s)
+  ('switches', 'qmix', 'correlated', 'obs')  -> 3 seed(s)
+  ('switches', 'qmix', 'correlated', 'q_values')  -> 3 seed(s)
+  ('switches', 'qmix', 'independent', 'na')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'hidden')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'obs')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'q_values')  -> 3 seed(s)
+  ('switches', 'vdn', 'independent', 'na')  -> 3 seed(s)
+saved plot_hallway_qmix.png
+Available run groups:
+  ('hallway', 'qmix', 'correlated', 'hidden')  -> 5 seed(s)
+  ('hallway', 'qmix', 'correlated', 'obs')  -> 5 seed(s)
+  ('hallway', 'qmix', 'correlated', 'q_values')  -> 5 seed(s)
+  ('hallway', 'qmix', 'independent', 'na')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'hidden')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'obs')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'q_values')  -> 5 seed(s)
+  ('hallway', 'vdn', 'independent', 'na')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'hidden')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'obs')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'q_values')  -> 5 seed(s)
+  ('lbf', 'qmix', 'independent', 'na')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'hidden')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'obs')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'q_values')  -> 5 seed(s)
+  ('lbf', 'vdn', 'independent', 'na')  -> 5 seed(s)
+  ('switches', 'qmix', 'correlated', 'hidden')  -> 3 seed(s)
+  ('switches', 'qmix', 'correlated', 'obs')  -> 3 seed(s)
+  ('switches', 'qmix', 'correlated', 'q_values')  -> 3 seed(s)
+  ('switches', 'qmix', 'independent', 'na')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'hidden')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'obs')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'q_values')  -> 3 seed(s)
+  ('switches', 'vdn', 'independent', 'na')  -> 3 seed(s)
+saved plot_lbf_vdn.png
+Available run groups:
+  ('hallway', 'qmix', 'correlated', 'hidden')  -> 5 seed(s)
+  ('hallway', 'qmix', 'correlated', 'obs')  -> 5 seed(s)
+  ('hallway', 'qmix', 'correlated', 'q_values')  -> 5 seed(s)
+  ('hallway', 'qmix', 'independent', 'na')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'hidden')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'obs')  -> 5 seed(s)
+  ('hallway', 'vdn', 'correlated', 'q_values')  -> 5 seed(s)
+  ('hallway', 'vdn', 'independent', 'na')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'hidden')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'obs')  -> 5 seed(s)
+  ('lbf', 'qmix', 'correlated', 'q_values')  -> 5 seed(s)
+  ('lbf', 'qmix', 'independent', 'na')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'hidden')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'obs')  -> 5 seed(s)
+  ('lbf', 'vdn', 'correlated', 'q_values')  -> 5 seed(s)
+  ('lbf', 'vdn', 'independent', 'na')  -> 5 seed(s)
+  ('switches', 'qmix', 'correlated', 'hidden')  -> 3 seed(s)
+  ('switches', 'qmix', 'correlated', 'obs')  -> 3 seed(s)
+  ('switches', 'qmix', 'correlated', 'q_values')  -> 3 seed(s)
+  ('switches', 'qmix', 'independent', 'na')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'hidden')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'obs')  -> 3 seed(s)
+  ('switches', 'vdn', 'correlated', 'q_values')  -> 3 seed(s)
+  ('switches', 'vdn', 'independent', 'na')  -> 3 seed(s)
+saved plot_lbf_qmix.png
+=== Plots saved. Final ls of results: ===
+total 4244
+drwxrwx---  3 jwozniak jwozniak  8192 Jun  8 22:52 .
+drwxrwx--- 13 jwozniak jwozniak  4096 Jun  8 23:09 ..
+-rw-rw----  1 jwozniak jwozniak 15728 Jun  5 16:08 diagnostic_lbf_all.npz
+-rw-rw----  1 jwozniak jwozniak 12524 Jun  5 16:08 diagnostic_lbf_corr_balanced.npz
+-rw-rw----  1 jwozniak jwozniak 12524 Jun  5 16:08 diagnostic_lbf_corr.npz
+-rw-rw----  1 jwozniak jwozniak 15724 Jun  5 16:08 diagnostic_lbf_corr_pshare.npz
+-rw-rw----  1 jwozniak jwozniak 12528 Jun  5 16:08 diagnostic_lbf_qmix_balanced.npz
+-rw-rw----  1 jwozniak jwozniak 26964 Jun  8 20:19 hallway_qmix_correlated_hidden_s0.npz
+-rw-rw----  1 jwozniak jwozniak 26964 Jun  8 20:19 hallway_qmix_correlated_hidden_s1.npz
+-rw-rw----  1 jwozniak jwozniak 26964 Jun  8 20:21 hallway_qmix_correlated_hidden_s2.npz
+-rw-rw----  1 jwozniak jwozniak 26964 Jun  8 20:22 hallway_qmix_correlated_hidden_s3.npz
+-rw-rw----  1 jwozniak jwozniak 26964 Jun  8 20:22 hallway_qmix_correlated_hidden_s4.npz
+-rw-rw----  1 jwozniak jwozniak 26952 Jun  8 20:18 hallway_qmix_correlated_obs_s0.npz
+-rw-rw----  1 jwozniak jwozniak 26952 Jun  8 20:18 hallway_qmix_correlated_obs_s1.npz
+-rw-rw----  1 jwozniak jwozniak 26952 Jun  8 20:21 hallway_qmix_correlated_obs_s2.npz
+-rw-rw----  1 jwozniak jwozniak 26952 Jun  8 20:20 hallway_qmix_correlated_obs_s3.npz
+-rw-rw----  1 jwozniak jwozniak 26952 Jun  8 20:22 hallway_qmix_correlated_obs_s4.npz
+-rw-rw----  1 jwozniak jwozniak 26972 Jun  8 20:18 hallway_qmix_correlated_q_values_s0.npz
+-rw-rw----  1 jwozniak jwozniak 26972 Jun  8 20:19 hallway_qmix_correlated_q_values_s1.npz
+-rw-rw----  1 jwozniak jwozniak 26972 Jun  8 20:21 hallway_qmix_correlated_q_values_s2.npz
+-rw-rw----  1 jwozniak jwozniak 26972 Jun  8 20:22 hallway_qmix_correlated_q_values_s3.npz
+-rw-rw----  1 jwozniak jwozniak 26972 Jun  8 20:22 hallway_qmix_correlated_q_values_s4.npz
+-rw-rw----  1 jwozniak jwozniak 26956 Jun  8 20:16 hallway_qmix_independent_na_s0.npz
+-rw-rw----  1 jwozniak jwozniak 26956 Jun  8 20:16 hallway_qmix_independent_na_s1.npz
+-rw-rw----  1 jwozniak jwozniak 26956 Jun  8 20:17 hallway_qmix_independent_na_s2.npz
+-rw-rw----  1 jwozniak jwozniak 26956 Jun  8 20:16 hallway_qmix_independent_na_s3.npz
+-rw-rw----  1 jwozniak jwozniak 26956 Jun  8 20:17 hallway_qmix_independent_na_s4.npz
+-rw-rw----  1 jwozniak jwozniak 26960 Jun  8 20:12 hallway_vdn_correlated_hidden_s0.npz
+-rw-rw----  1 jwozniak jwozniak 26960 Jun  8 20:13 hallway_vdn_correlated_hidden_s1.npz

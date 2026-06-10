@@ -1,0 +1,34 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration correlated --mixer vdn --similarity obs --env lbf --episodes 3000 --seed 3 --out results/lbf_vdn_correlated_obs_s3.npz --save-every 100 --parameter-sharing --balanced-buffer
+/home/jwozniak/MARL/.venv/lib/python3.12/site-packages/gymnasium/utils/passive_env_checker.py:244: UserWarning: [33mWARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'list'>[0m
+  logger.warn(
+[corr/vdn/obs/s3] ep=100/3000  eps=0.97  recent_success=0.12  buf=12/4743 (0.25%)  elapsed=23s
+[corr/vdn/obs/s3] ep=200/3000  eps=0.94  recent_success=0.16  buf=28/9334 (0.30%)  elapsed=51s
+[corr/vdn/obs/s3] ep=300/3000  eps=0.91  recent_success=0.14  buf=42/13998 (0.30%)  elapsed=80s
+[corr/vdn/obs/s3] ep=400/3000  eps=0.88  recent_success=0.07  buf=49/18905 (0.26%)  elapsed=110s
+[corr/vdn/obs/s3] ep=500/3000  eps=0.85  recent_success=0.05  buf=54/23801 (0.23%)  elapsed=141s
+[corr/vdn/obs/s3] ep=600/3000  eps=0.83  recent_success=0.08  buf=62/28594 (0.22%)  elapsed=170s
+[corr/vdn/obs/s3] ep=700/3000  eps=0.80  recent_success=0.04  buf=66/33474 (0.20%)  elapsed=200s
+[corr/vdn/obs/s3] ep=800/3000  eps=0.77  recent_success=0.03  buf=69/38387 (0.18%)  elapsed=230s
+[corr/vdn/obs/s3] ep=900/3000  eps=0.74  recent_success=0.03  buf=72/43282 (0.17%)  elapsed=261s
+[corr/vdn/obs/s3] ep=1000/3000  eps=0.71  recent_success=0.02  buf=74/48276 (0.15%)  elapsed=291s
+[corr/vdn/obs/s3] ep=1100/3000  eps=0.68  recent_success=0.00  buf=74/50000 (0.15%)  elapsed=322s
+[corr/vdn/obs/s3] ep=1200/3000  eps=0.65  recent_success=0.00  buf=74/50000 (0.15%)  elapsed=353s
+[corr/vdn/obs/s3] ep=1300/3000  eps=0.62  recent_success=0.01  buf=75/50000 (0.15%)  elapsed=384s
+[corr/vdn/obs/s3] ep=1400/3000  eps=0.59  recent_success=0.01  buf=76/50000 (0.15%)  elapsed=415s
+[corr/vdn/obs/s3] ep=1500/3000  eps=0.56  recent_success=0.02  buf=78/50000 (0.16%)  elapsed=445s
+[corr/vdn/obs/s3] ep=1600/3000  eps=0.53  recent_success=0.00  buf=78/50000 (0.16%)  elapsed=476s
+[corr/vdn/obs/s3] ep=1700/3000  eps=0.50  recent_success=0.00  buf=78/50000 (0.16%)  elapsed=506s
+[corr/vdn/obs/s3] ep=1800/3000  eps=0.48  recent_success=0.00  buf=78/50000 (0.16%)  elapsed=537s
+[corr/vdn/obs/s3] ep=1900/3000  eps=0.45  recent_success=0.00  buf=78/50000 (0.16%)  elapsed=568s
+[corr/vdn/obs/s3] ep=2000/3000  eps=0.42  recent_success=0.01  buf=79/50000 (0.16%)  elapsed=598s
+[corr/vdn/obs/s3] ep=2100/3000  eps=0.39  recent_success=0.01  buf=80/50000 (0.16%)  elapsed=629s
+[corr/vdn/obs/s3] ep=2200/3000  eps=0.36  recent_success=0.00  buf=80/50000 (0.16%)  elapsed=659s
+[corr/vdn/obs/s3] ep=2300/3000  eps=0.33  recent_success=0.01  buf=81/50000 (0.16%)  elapsed=689s
+[corr/vdn/obs/s3] ep=2400/3000  eps=0.30  recent_success=0.01  buf=82/50000 (0.16%)  elapsed=720s
+[corr/vdn/obs/s3] ep=2500/3000  eps=0.30  recent_success=0.00  buf=82/50000 (0.16%)  elapsed=750s
+[corr/vdn/obs/s3] ep=2600/3000  eps=0.30  recent_success=0.01  buf=83/50000 (0.17%)  elapsed=780s
+[corr/vdn/obs/s3] ep=2700/3000  eps=0.30  recent_success=0.04  buf=87/50000 (0.17%)  elapsed=810s
+[corr/vdn/obs/s3] ep=2800/3000  eps=0.30  recent_success=0.00  buf=87/50000 (0.17%)  elapsed=841s
+[corr/vdn/obs/s3] ep=2900/3000  eps=0.30  recent_success=0.02  buf=89/50000 (0.18%)  elapsed=871s
+[corr/vdn/obs/s3] ep=3000/3000  eps=0.30  recent_success=0.00  buf=89/50000 (0.18%)  elapsed=900s
+DONE -> results/lbf_vdn_correlated_obs_s3.npz

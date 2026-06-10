@@ -1,0 +1,17 @@
+# /home/jwozniak/MARL/.venv/bin/python3 long_run.py --exploration correlated --mixer qmix --similarity hidden --env hallway --episodes 1500 --seed 1 --out results/hallway_qmix_correlated_hidden_s1.npz --save-every 100 --parameter-sharing
+[corr/qmix/hidden/s1] ep=100/1500  eps=0.94  recent_success=0.53  buf=53/1122 (4.72%)  elapsed=4s
+[corr/qmix/hidden/s1] ep=200/1500  eps=0.88  recent_success=0.57  buf=110/2252 (4.88%)  elapsed=8s
+[corr/qmix/hidden/s1] ep=300/1500  eps=0.83  recent_success=0.30  buf=140/3640 (3.85%)  elapsed=18s
+[corr/qmix/hidden/s1] ep=400/1500  eps=0.77  recent_success=0.30  buf=170/4976 (3.42%)  elapsed=27s
+[corr/qmix/hidden/s1] ep=500/1500  eps=0.71  recent_success=0.22  buf=192/6377 (3.01%)  elapsed=36s
+[corr/qmix/hidden/s1] ep=600/1500  eps=0.65  recent_success=0.33  buf=225/7671 (2.93%)  elapsed=45s
+[corr/qmix/hidden/s1] ep=700/1500  eps=0.59  recent_success=0.74  buf=299/8447 (3.54%)  elapsed=50s
+[corr/qmix/hidden/s1] ep=800/1500  eps=0.53  recent_success=0.95  buf=394/9033 (4.36%)  elapsed=53s
+[corr/qmix/hidden/s1] ep=900/1500  eps=0.48  recent_success=0.98  buf=492/9483 (5.19%)  elapsed=57s
+[corr/qmix/hidden/s1] ep=1000/1500  eps=0.42  recent_success=0.98  buf=590/9961 (5.92%)  elapsed=60s
+[corr/qmix/hidden/s1] ep=1100/1500  eps=0.36  recent_success=0.99  buf=689/10358 (6.65%)  elapsed=62s
+[corr/qmix/hidden/s1] ep=1200/1500  eps=0.30  recent_success=1.00  buf=789/10679 (7.39%)  elapsed=64s
+[corr/qmix/hidden/s1] ep=1300/1500  eps=0.30  recent_success=0.99  buf=888/11012 (8.06%)  elapsed=67s
+[corr/qmix/hidden/s1] ep=1400/1500  eps=0.30  recent_success=0.98  buf=986/11354 (8.68%)  elapsed=69s
+[corr/qmix/hidden/s1] ep=1500/1500  eps=0.30  recent_success=1.00  buf=1086/11681 (9.30%)  elapsed=71s
+DONE -> results/hallway_qmix_correlated_hidden_s1.npz

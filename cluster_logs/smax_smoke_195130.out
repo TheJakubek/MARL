@@ -1,0 +1,33 @@
+=== Job info ===
+Job ID:    195130
+Node:      asusgpu2
+Wed Jun 10 18:10:45 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 565.57.01              Driver Version: 565.57.01      CUDA Version: 12.7     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2080 Ti     On  |   00000000:84:00.0 Off |                  N/A |
+| 27%   28C    P8              7W /  250W |       1MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+================
+jax devices: [CudaDevice(id=0)]
+backend: gpu
+=== Smoke: VDN + correlated/obs, 5k steps ===
+[run] cfg={'seed': 0, 'total_steps': 5000, 'buffer_cap': 50000, 'batch_size': 64, 'warmup': 500, 'train_every': 8, 'target_sync': 500, 'gamma': 0.99, 'lr': 0.0003, 'grad_clip': 10.0, 'eps_start': 1.0, 'eps_end': 0.05, 'eps_anneal_steps': 50000, 'hidden_size': 128, 'exploration': 'correlated', 'similarity': 'obs', 'mixer': 'vdn', 'qmix_embed': 32, 'log_corr_every': 5000}
+[cfg] n_agents=5  n_actions=10  obs_dim=127  state_dim=120  aug_dim=134
+step=      0  eps=1.000  episodes=   0  recent_return=0.00  win=0.00  buf=1
+[run] saved -> results_smax_smoke/smoke_vdn_corr_obs.npz
+=== Smoke OK ===
+smoke_vdn_corr_obs.npz
