@@ -6,10 +6,16 @@ dependencies = [
     "lbforaging>=2.0.0",
     "matplotlib>=3.10.9",
     "numpy<2.0",
-    "scipy>=1.13",
+    "scipy<=1.12",
     "torch==2.5.1",
     "nvidia-cudnn-cu12==9.1.0.70",
     "nvidia-nccl-cu12==2.21.5",
+    # JAX stack for SMAX work.
+    "jax[cuda12]==0.4.34",
+    "flax>=0.9.0,<0.11",
+    "optax>=0.2.3",
+    "chex>=0.1.86",
+    "jaxmarl>=0.0.5",
 ]
 
 [[tool.uv.index]]
