@@ -43,3 +43,15 @@ def augment_obs(
 ) -> jnp.ndarray:
     """Concatenate (obs, agent_id_one_hot, role_one_hot)."""
     return jnp.concatenate([obs, agent_id_oh, role_oh], axis=-1)
+
+
+def augment_obs_batch(
+    obs: jnp.ndarray,           # (B, n_agents, obs_dim)
+    agent_id_oh: jnp.ndarray,   # (n_agents, n_agents)
+    role_oh: jnp.ndarray,       # (n_agents, n_roles)
+) -> jnp.ndarray:
+    """Batched augment over B parallel envs."""
+    b = obs.shape[0]
+    aid = jnp.broadcast_to(agent_id_oh, (b,) + agent_id_oh.shape)
+    rl = jnp.broadcast_to(role_oh, (b,) + role_oh.shape)
+    return jnp.concatenate([obs, aid, rl], axis=-1)

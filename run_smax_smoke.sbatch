@@ -28,11 +28,12 @@ export JAX_PLATFORMS=cuda
 
 uv run python -c "import jax; print('jax devices:', jax.devices()); print('backend:', jax.default_backend())"
 
-echo "=== Smoke: VDN + correlated/obs, 5k steps ==="
+echo "=== Smoke: QMIX + correlated/obs, 50k env-steps, 128 envs ==="
+echo "    (reports env-steps/sec — use it to size the full run's --total-steps)"
 uv run python -m smax.run \
-    --exploration correlated --similarity obs --mixer vdn \
-    --seed 0 --total-steps 5000 --warmup 500 \
-    --out results_smax_smoke/smoke_vdn_corr_obs.npz
+    --exploration correlated --similarity obs --mixer qmix \
+    --seed 0 --total-steps 50000 --n-envs 128 --warmup 5000 \
+    --out results_smax_smoke/smoke_qmix_corr_obs.npz
 
 echo "=== Smoke OK ==="
 ls results_smax_smoke/

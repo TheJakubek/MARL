@@ -19,7 +19,6 @@ Logs (returned in result dict):
 """
 
 from dataclasses import dataclass
-from typing import Optional
 
 import jax
 import jax.numpy as jnp
@@ -32,7 +31,7 @@ from jaxmarl.environments.smax import map_name_to_scenario
 from smax.buffer import ReplayBuffer
 from smax.exploration import correlation_matrix, select_correlated, select_independent
 from smax.mixers import QMixMixer, VDNMixer
-from smax.qnet import QNet, augment_obs
+from smax.qnet import QNet, augment_obs_batch
 
 
 # Unit-type indices in jaxmarl's smax_env.SMAX (see unit_type_names list).
@@ -53,37 +52,30 @@ def _build_role_oh(scenario_unit_types: jnp.ndarray) -> jnp.ndarray:
 @dataclass
 class Config:
     seed: int = 0
-    total_steps: int = 200_000
-    buffer_cap: int = 50_000
-    batch_size: int = 64
-    warmup: int = 2_000
-    train_every: int = 8
-    target_sync: int = 500
+    total_steps: int = 200_000                 # total ENV steps (across all parallel envs)
+    n_envs: int = 128                          # parallel envs via vmap
+    buffer_cap: int = 100_000
+    batch_size: int = 128
+    warmup: int = 5_000                        # env steps before learning starts
+    updates_per_iter: int = 1                  # gradient steps per rollout iteration
+    target_sync: int = 200                     # in iterations
     gamma: float = 0.99
     lr: float = 3e-4
     grad_clip: float = 10.0
     eps_start: float = 1.0
     eps_end: float = 0.05
-    eps_anneal_steps: int = 50_000
+    eps_anneal_steps: int = 100_000            # in env steps
     hidden_size: int = 128
     exploration: str = "independent"          # or "correlated"
     similarity: str = "obs"                    # or "q_values" or "hidden"
     mixer: str = "vdn"                         # or "qmix"
     qmix_embed: int = 32
-    log_corr_every: int = 5_000
+    log_corr_every: int = 2_000                # in iterations
 
 
 def epsilon(step: int, cfg: Config) -> float:
     frac = min(1.0, step / cfg.eps_anneal_steps)
     return cfg.eps_start + frac * (cfg.eps_end - cfg.eps_start)
-
-
-def _stack_obs(obs_dict, agents):
-    return jnp.stack([obs_dict[a] for a in agents], axis=0)
-
-
-def _stack_avail(avail_dict, agents):
-    return jnp.stack([avail_dict[a] for a in agents], axis=0)
 
 
 def select_features(
@@ -179,14 +171,30 @@ def train(cfg: Config):
         n_actions=n_actions,
     )
 
-    # --- JIT-compiled forward ---
+    # --- Vmapped env fns (N parallel envs) ---
+    vmap_reset = jax.jit(jax.vmap(env.reset))
+    vmap_step = jax.jit(jax.vmap(env.step))
+    vmap_avail = jax.jit(jax.vmap(env.get_avail_actions))
+
+    # --- JIT-compiled batched forward over (N, n_agents) ---
     @jax.jit
-    def forward_qnet(params, aug_obs_batch):
-        # aug_obs_batch: (n_agents, aug_dim)
-        # returns (n_agents, n_actions), (n_agents, hidden)
-        return jax.vmap(lambda x: qnet.apply(params, x, return_hidden=True))(
-            aug_obs_batch
-        )
+    def forward_qnet(params, aug_obs):
+        # aug_obs: (N, n_agents, aug_dim)
+        # returns q (N, n_agents, n_actions), hidden (N, n_agents, hidden)
+        f = lambda x: qnet.apply(params, x, return_hidden=True)
+        return jax.vmap(jax.vmap(f))(aug_obs)
+
+    # --- Batched action selection (vmap over N envs) ---
+    _sel_indep_v = jax.vmap(select_independent, in_axes=(0, 0, 0, None))
+    _sel_corr_v = jax.vmap(select_correlated, in_axes=(0, 0, 0, 0, None))
+
+    @jax.jit
+    def act_independent(keys, q, avail, eps):
+        return _sel_indep_v(keys, q, avail, eps)
+
+    @jax.jit
+    def act_correlated(keys, q, avail, feats, eps):
+        return _sel_corr_v(keys, q, avail, feats, eps)
 
     @jax.jit
     def loss_fn_jit(params, batch):
@@ -246,59 +254,71 @@ def train(cfg: Config):
         opt_params = optax.apply_updates(opt_params, updates)
         return opt_params, opt_state, loss
 
-    # --- Run ---
+    # --- Run (N parallel envs) ---
+    N = cfg.n_envs
     rng_np = np.random.default_rng(cfg.seed)
-    key, k = jax.random.split(key)
-    obs_dict, state = env.reset(k)
 
-    ep_return = 0.0
+    def stack_obs(od):
+        return jnp.stack([od[a] for a in agents], axis=1)   # (N, n_agents, obs_dim)
+
+    def stack_avail(ad):
+        return jnp.stack([ad[a] for a in agents], axis=1)   # (N, n_agents, n_act)
+
+    key, k = jax.random.split(key)
+    reset_keys = jax.random.split(k, N)
+    obs_dict, state = vmap_reset(reset_keys)
+
+    ep_return = np.zeros(N, dtype=np.float64)
     ep_returns, ep_wins = [], []
     corr_log = []
     losses = []
 
-    obs_arr = _stack_obs(obs_dict, agents)                     # (n_agents, obs_dim)
-    aug_obs = augment_obs(obs_arr, agent_id_oh, role_oh)       # (n_agents, aug_dim)
+    obs_arr = stack_obs(obs_dict)
+    aug_obs = augment_obs_batch(obs_arr, agent_id_oh, role_oh)   # (N, n_agents, aug_dim)
 
-    for step in range(cfg.total_steps):
-        eps = epsilon(step, cfg)
+    n_iters = cfg.total_steps // N
+    for it in range(n_iters):
+        env_steps = it * N
+        eps = epsilon(env_steps, cfg)
 
-        # Forward.
+        # Forward over (N, n_agents).
         q, hidden = forward_qnet(opt_params["qnet"], aug_obs)
-        avail = _stack_avail(env.get_avail_actions(state), agents)
+        avail = stack_avail(vmap_avail(state))
 
-        # Pick actions.
+        # Pick actions (vmapped over envs).
         feats = select_features(aug_obs, q, hidden, cfg.similarity)
         key, k_act = jax.random.split(key)
+        act_keys = jax.random.split(k_act, N)
         if cfg.exploration == "independent":
-            actions = select_independent(k_act, q, avail, eps)
+            actions = act_independent(act_keys, q, avail, eps)       # (N, n_agents)
         else:
-            actions = select_correlated(k_act, q, avail, feats, eps)
+            actions = act_correlated(act_keys, q, avail, feats, eps)
 
-        # Optionally log correlation matrix snapshot.
-        if cfg.exploration == "correlated" and step % cfg.log_corr_every == 0:
-            R = correlation_matrix(feats)
-            corr_log.append((step, np.asarray(R)))
+        # Log correlation snapshot from env 0.
+        if cfg.exploration == "correlated" and it % cfg.log_corr_every == 0:
+            R = correlation_matrix(feats[0])
+            corr_log.append((env_steps, np.asarray(R)))
 
-        # Step env.
-        actions_dict = {a: actions[i] for i, a in enumerate(agents)}
+        # Step all envs (jaxmarl auto-resets done envs internally).
+        actions_dict = {a: actions[:, i] for i, a in enumerate(agents)}
         key, k_step = jax.random.split(key)
-        next_obs_dict, next_state, rewards, dones, info = env.step(
-            k_step, state, actions_dict
+        step_keys = jax.random.split(k_step, N)
+        world_state_now = obs_dict["world_state"]
+        next_obs_dict, next_state, rewards, dones, info = vmap_step(
+            step_keys, state, actions_dict
         )
 
-        # Shared reward (all agents identical for SMAX).
-        r = float(rewards[agents[0]])
-        done = bool(dones["__all__"])
-        ep_return += r
+        r = np.asarray(rewards[agents[0]])       # (N,) shared reward
+        done = np.asarray(dones["__all__"])      # (N,)
 
-        # Stack next.
-        next_obs_arr = _stack_obs(next_obs_dict, agents)
-        next_aug_obs = augment_obs(next_obs_arr, agent_id_oh, role_oh)
-        next_avail = _stack_avail(env.get_avail_actions(next_state), agents)
-        world_state_now = obs_dict["world_state"]
+        next_obs_arr = stack_obs(next_obs_dict)
+        next_aug_obs = augment_obs_batch(next_obs_arr, agent_id_oh, role_oh)
+        next_avail = stack_avail(vmap_avail(next_state))
         world_state_next = next_obs_dict["world_state"]
 
-        buf.add(
+        # Store N transitions. (next_obs for done envs is the post-reset obs,
+        # but the (1-done) mask in the TD target zeroes it out, so it's fine.)
+        buf.add_batch(
             obs=np.asarray(aug_obs),
             state=np.asarray(world_state_now),
             actions=np.asarray(actions),
@@ -309,50 +329,40 @@ def train(cfg: Config):
             done=done,
         )
 
-        # Train step.
-        if buf.size >= cfg.warmup and step % cfg.train_every == 0:
-            batch_np = buf.sample(cfg.batch_size, rng_np)
-            batch_jax = {k: jnp.asarray(v) for k, v in batch_np.items()}
-            opt_params, opt_state, loss = update(
-                opt_params, opt_state, target_qnet_params, target_mixer_params,
-                batch_jax,
-            )
-            losses.append(float(loss))
+        # Episode bookkeeping (per env).
+        ep_return += r
+        for e in np.nonzero(done)[0]:
+            ep_returns.append(float(ep_return[e]))
+            ep_wins.append(1 if ep_return[e] > 0.5 else 0)
+            ep_return[e] = 0.0
 
-        # Sync targets.
-        if step > 0 and step % cfg.target_sync == 0:
+        # Train.
+        if buf.size >= cfg.warmup:
+            for _ in range(cfg.updates_per_iter):
+                batch_np = buf.sample(cfg.batch_size, rng_np)
+                batch_jax = {kk: jnp.asarray(vv) for kk, vv in batch_np.items()}
+                opt_params, opt_state, loss = update(
+                    opt_params, opt_state, target_qnet_params,
+                    target_mixer_params, batch_jax,
+                )
+                losses.append(float(loss))
+
+        # Sync targets (counted in iterations).
+        if it > 0 and it % cfg.target_sync == 0:
             target_qnet_params = opt_params["qnet"]
             target_mixer_params = opt_params["mixer"]
 
-        # Episode bookkeeping.
-        if done:
-            ep_returns.append(ep_return)
-            # SMAX info doesn't always include explicit "win" — we infer from
-            # final reward magnitude (won_battle_bonus=1.0 added on win).
-            ep_wins.append(1 if ep_return > 0.5 else 0)
-            ep_return = 0.0
-            key, k_reset = jax.random.split(key)
-            obs_dict, state = env.reset(k_reset)
-            obs_arr = _stack_obs(obs_dict, agents)
-            aug_obs = augment_obs(obs_arr, agent_id_oh, role_oh)
-        else:
-            obs_dict, state = next_obs_dict, next_state
-            obs_arr = next_obs_arr
-            aug_obs = next_aug_obs
+        # Advance (auto-reset handled inside vmap_step).
+        obs_dict, state = next_obs_dict, next_state
+        aug_obs = next_aug_obs
 
-        if step % 5000 == 0:
-            recent_n = max(1, len(ep_returns) // 5)
-            recent_ret = (
-                float(np.mean(ep_returns[-50:])) if ep_returns else 0.0
-            )
-            recent_win = (
-                float(np.mean(ep_wins[-50:])) if ep_wins else 0.0
-            )
+        if it % 200 == 0:
+            recent_ret = float(np.mean(ep_returns[-200:])) if ep_returns else 0.0
+            recent_win = float(np.mean(ep_wins[-200:])) if ep_wins else 0.0
             print(
-                f"step={step:>7d}  eps={eps:.3f}  "
-                f"episodes={len(ep_returns):>4d}  "
-                f"recent_return={recent_ret:.2f}  win={recent_win:.2f}  "
-                f"buf={buf.size}",
+                f"iter={it:>6d}  env_steps={env_steps:>9d}  eps={eps:.3f}  "
+                f"episodes={len(ep_returns):>6d}  recent_return={recent_ret:.2f}  "
+                f"win={recent_win:.2f}  buf={buf.size}",
                 flush=True,
             )
 

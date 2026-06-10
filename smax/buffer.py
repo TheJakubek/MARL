@@ -48,6 +48,25 @@ class ReplayBuffer:
         self.idx = (self.idx + 1) % self.cap
         self.size = min(self.size + 1, self.cap)
 
+    def add_batch(self, obs, state, actions, reward, next_obs, next_state,
+                  next_avail, done):
+        """Insert B transitions at once (B = n parallel envs).
+
+        All args have a leading batch dim B. Wraps around the ring buffer.
+        """
+        b = obs.shape[0]
+        idxs = (self.idx + np.arange(b)) % self.cap
+        self.obs[idxs] = obs
+        self.state[idxs] = state
+        self.actions[idxs] = actions
+        self.rewards[idxs] = reward
+        self.next_obs[idxs] = next_obs
+        self.next_state[idxs] = next_state
+        self.next_avail[idxs] = next_avail
+        self.done[idxs] = done.astype(np.float32)
+        self.idx = int((self.idx + b) % self.cap)
+        self.size = min(self.size + b, self.cap)
+
     def sample(self, batch_size: int, rng: np.random.Generator):
         assert self.size > 0, "buffer is empty"
         idxs = rng.integers(0, self.size, size=batch_size)

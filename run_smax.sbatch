@@ -12,11 +12,11 @@
 #   - mixers:        vdn, qmix
 #   - explorations:  independent + correlated × {obs, q_values, hidden}
 #   - seeds:         0..4
-#   - total_steps:   5M per run
+#   - total_steps:   2M env-steps per run (128 parallel envs via vmap)
 #
 # 2 mixers × 4 exploration variants × 5 seeds = 40 jobs.
 # Concurrency=4 (single GPU shared) -> ~10 sequential waves.
-# Each 5M-step run on GPU should take ~30-60 min => ~5-10h wall.
+# Throughput depends on GPU; the smoke job reports env-steps/sec — size from that.
 # ----------------------------------------------------------------------------
 
 set -euo pipefail
@@ -42,7 +42,7 @@ uv run python run_smax_grid.py \
     --explorations independent correlated \
     --similarities obs q_values hidden \
     --seeds 0 1 2 3 4 \
-    --total-steps 5000000 \
+    --total-steps 2000000 \
     --concurrency 4
 
 echo "=== All done at $(date) ==="

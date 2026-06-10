@@ -7,6 +7,7 @@ Usage:
 """
 
 import argparse
+import time
 from pathlib import Path
 
 import numpy as np
@@ -22,10 +23,11 @@ def main():
                     default="obs")
     ap.add_argument("--mixer", choices=["vdn", "qmix"], default="vdn")
     ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--total-steps", type=int, default=200_000)
-    ap.add_argument("--buffer-cap", type=int, default=50_000)
-    ap.add_argument("--batch-size", type=int, default=64)
-    ap.add_argument("--warmup", type=int, default=2_000)
+    ap.add_argument("--total-steps", type=int, default=2_000_000)
+    ap.add_argument("--n-envs", type=int, default=128)
+    ap.add_argument("--buffer-cap", type=int, default=100_000)
+    ap.add_argument("--batch-size", type=int, default=128)
+    ap.add_argument("--warmup", type=int, default=5_000)
     ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--out", type=str, required=True)
     args = ap.parse_args()
@@ -33,6 +35,7 @@ def main():
     cfg = Config(
         seed=args.seed,
         total_steps=args.total_steps,
+        n_envs=args.n_envs,
         buffer_cap=args.buffer_cap,
         batch_size=args.batch_size,
         warmup=args.warmup,
@@ -43,7 +46,11 @@ def main():
     )
 
     print(f"[run] cfg={cfg.__dict__}", flush=True)
+    t0 = time.time()
     result = train(cfg)
+    dt = time.time() - t0
+    print(f"[run] {cfg.total_steps} env-steps in {dt:.0f}s "
+          f"=> {cfg.total_steps / dt:.0f} env-steps/sec", flush=True)
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
