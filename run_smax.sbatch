@@ -34,6 +34,11 @@ VENV_NV="$(uv run python -c 'import os, nvidia; print(os.path.dirname(nvidia.__f
 export LD_LIBRARY_PATH="${VENV_NV}/cudnn/lib:${VENV_NV}/nccl/lib:${LD_LIBRARY_PATH:-}"
 export JAX_PLATFORMS=cuda
 
+# CRITICAL for multiple JAX processes on one GPU: JAX otherwise preallocates
+# ~75% of GPU memory per process, so concurrent jobs OOM-crash instantly.
+# Hard-cap each process to 40% of the 11GB card -> 2 fit side by side (2*0.4<1).
+export XLA_PYTHON_CLIENT_MEM_FRACTION=0.4
+
 uv run python -c "import jax; print('jax devices:', jax.devices()); print('backend:', jax.default_backend())"
 
 echo "=== SMAX 2s3z grid ==="
@@ -43,7 +48,7 @@ uv run python run_smax_grid.py \
     --similarities obs q_values hidden \
     --seeds 0 1 2 3 4 \
     --total-steps 2000000 \
-    --concurrency 4
+    --concurrency 2
 
 echo "=== All done at $(date) ==="
 ls -la results_smax/ | head -50
