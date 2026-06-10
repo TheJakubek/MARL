@@ -1,0 +1,115 @@
+=== Job info ===
+Job ID:    195140
+Node:      asusgpu2
+Date:      Wed Jun 10 06:39:28 PM CEST 2026
+Wed Jun 10 18:39:28 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 565.57.01              Driver Version: 565.57.01      CUDA Version: 12.7     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2080 Ti     On  |   00000000:04:00.0 Off |                  N/A |
+| 27%   27C    P8              1W /  250W |       1MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+================
+jax devices: [CudaDevice(id=0)]
+backend: gpu
+=== SMAX 2s3z grid ===
+Planned 40 jobs (concurrency=4):
+  smax_2s3z_vdn_independent_na_s0
+  smax_2s3z_vdn_independent_na_s1
+  smax_2s3z_vdn_independent_na_s2
+  smax_2s3z_vdn_independent_na_s3
+  smax_2s3z_vdn_independent_na_s4
+  smax_2s3z_vdn_correlated_obs_s0
+  smax_2s3z_vdn_correlated_q_values_s0
+  smax_2s3z_vdn_correlated_hidden_s0
+  smax_2s3z_vdn_correlated_obs_s1
+  smax_2s3z_vdn_correlated_q_values_s1
+  smax_2s3z_vdn_correlated_hidden_s1
+  smax_2s3z_vdn_correlated_obs_s2
+  smax_2s3z_vdn_correlated_q_values_s2
+  smax_2s3z_vdn_correlated_hidden_s2
+  smax_2s3z_vdn_correlated_obs_s3
+  smax_2s3z_vdn_correlated_q_values_s3
+  smax_2s3z_vdn_correlated_hidden_s3
+  smax_2s3z_vdn_correlated_obs_s4
+  smax_2s3z_vdn_correlated_q_values_s4
+  smax_2s3z_vdn_correlated_hidden_s4
+  smax_2s3z_qmix_independent_na_s0
+  smax_2s3z_qmix_independent_na_s1
+  smax_2s3z_qmix_independent_na_s2
+  smax_2s3z_qmix_independent_na_s3
+  smax_2s3z_qmix_independent_na_s4
+  smax_2s3z_qmix_correlated_obs_s0
+  smax_2s3z_qmix_correlated_q_values_s0
+  smax_2s3z_qmix_correlated_hidden_s0
+  smax_2s3z_qmix_correlated_obs_s1
+  smax_2s3z_qmix_correlated_q_values_s1
+  smax_2s3z_qmix_correlated_hidden_s1
+  smax_2s3z_qmix_correlated_obs_s2
+  smax_2s3z_qmix_correlated_q_values_s2
+  smax_2s3z_qmix_correlated_hidden_s2
+  smax_2s3z_qmix_correlated_obs_s3
+  smax_2s3z_qmix_correlated_q_values_s3
+  smax_2s3z_qmix_correlated_hidden_s3
+  smax_2s3z_qmix_correlated_obs_s4
+  smax_2s3z_qmix_correlated_q_values_s4
+  smax_2s3z_qmix_correlated_hidden_s4
+[1/40] smax_2s3z_vdn_independent_na_s1  status=fail(-6)  (24s)  total_elapsed=24s
+[2/40] smax_2s3z_vdn_independent_na_s0  status=fail(-6)  (25s)  total_elapsed=25s
+[3/40] smax_2s3z_vdn_independent_na_s2  status=fail(-6)  (25s)  total_elapsed=25s
+[4/40] smax_2s3z_vdn_independent_na_s3  status=fail(-6)  (25s)  total_elapsed=25s
+[5/40] smax_2s3z_vdn_correlated_hidden_s0  status=fail(-6)  (3s)  total_elapsed=28s
+[6/40] smax_2s3z_vdn_correlated_obs_s1  status=fail(-6)  (3s)  total_elapsed=31s
+[7/40] smax_2s3z_vdn_correlated_q_values_s1  status=fail(-6)  (3s)  total_elapsed=34s
+[8/40] smax_2s3z_vdn_correlated_hidden_s1  status=fail(1)  (3s)  total_elapsed=37s
+[9/40] smax_2s3z_vdn_correlated_obs_s2  status=fail(1)  (3s)  total_elapsed=40s
+[10/40] smax_2s3z_vdn_correlated_q_values_s2  status=fail(1)  (3s)  total_elapsed=43s
+[11/40] smax_2s3z_vdn_correlated_hidden_s2  status=fail(1)  (3s)  total_elapsed=46s
+[12/40] smax_2s3z_vdn_correlated_obs_s0  status=fail(1)  (24s)  total_elapsed=48s
+[13/40] smax_2s3z_vdn_correlated_obs_s3  status=fail(1)  (3s)  total_elapsed=49s
+[14/40] smax_2s3z_vdn_correlated_hidden_s3  status=fail(1)  (3s)  total_elapsed=52s
+[15/40] smax_2s3z_vdn_correlated_q_values_s0  status=fail(1)  (29s)  total_elapsed=54s
+[16/40] smax_2s3z_vdn_correlated_q_values_s4  status=fail(1)  (4s)  total_elapsed=57s
+[17/40] smax_2s3z_vdn_correlated_hidden_s4  status=fail(1)  (4s)  total_elapsed=61s
+[18/40] smax_2s3z_qmix_independent_na_s0  status=fail(1)  (3s)  total_elapsed=64s
+[19/40] smax_2s3z_qmix_independent_na_s1  status=fail(1)  (3s)  total_elapsed=68s
+[20/40] smax_2s3z_qmix_independent_na_s2  status=fail(1)  (4s)  total_elapsed=72s
+[21/40] smax_2s3z_vdn_correlated_q_values_s3  status=fail(1)  (25s)  total_elapsed=73s
+[22/40] smax_2s3z_qmix_independent_na_s4  status=fail(1)  (3s)  total_elapsed=76s
+[23/40] smax_2s3z_vdn_correlated_obs_s4  status=fail(1)  (26s)  total_elapsed=78s
+[24/40] smax_2s3z_qmix_correlated_q_values_s0  status=fail(1)  (3s)  total_elapsed=81s
+[25/40] smax_2s3z_qmix_correlated_hidden_s0  status=fail(1)  (3s)  total_elapsed=84s
+[26/40] smax_2s3z_qmix_correlated_obs_s1  status=fail(1)  (3s)  total_elapsed=87s
+[27/40] smax_2s3z_qmix_correlated_q_values_s1  status=fail(1)  (3s)  total_elapsed=90s
+[28/40] smax_2s3z_qmix_correlated_obs_s0  status=fail(1)  (16s)  total_elapsed=92s
+[29/40] smax_2s3z_qmix_correlated_obs_s2  status=fail(1)  (3s)  total_elapsed=95s
+[30/40] smax_2s3z_qmix_correlated_q_values_s2  status=fail(1)  (3s)  total_elapsed=98s
+[31/40] smax_2s3z_qmix_correlated_hidden_s2  status=fail(1)  (3s)  total_elapsed=101s
+[32/40] smax_2s3z_qmix_correlated_obs_s3  status=fail(1)  (3s)  total_elapsed=104s
+[33/40] smax_2s3z_qmix_independent_na_s3  status=fail(1)  (34s)  total_elapsed=105s
+[34/40] smax_2s3z_qmix_correlated_hidden_s3  status=fail(1)  (3s)  total_elapsed=109s
+[35/40] smax_2s3z_qmix_correlated_obs_s4  status=fail(1)  (4s)  total_elapsed=112s
+[36/40] smax_2s3z_qmix_correlated_q_values_s4  status=fail(1)  (4s)  total_elapsed=116s
+[37/40] smax_2s3z_qmix_correlated_hidden_s4  status=fail(1)  (3s)  total_elapsed=119s
+[38/40] smax_2s3z_qmix_correlated_hidden_s1  status=fail(1)  (30s)  total_elapsed=120s
+[39/40] smax_2s3z_qmix_correlated_q_values_s3  status=fail(1)  (16s)  total_elapsed=121s
+[40/40] smax_2s3z_vdn_independent_na_s4  status=ok  (290s)  total_elapsed=315s
+All done in 315s.
+=== All done at Wed Jun 10 06:44:44 PM CEST 2026 ===
+total 308
+drwxrwx---  2 jwozniak jwozniak     57 Jun 10 18:44 .
+drwxrwx--- 17 jwozniak jwozniak   4096 Jun 10 18:39 ..
+-rw-rw----  1 jwozniak jwozniak 309114 Jun 10 18:44 smax_2s3z_vdn_independent_na_s4.npz

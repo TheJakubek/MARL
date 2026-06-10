@@ -1,0 +1,2 @@
+# /home/jwozniak/MARL/.venv/bin/python3 -m smax.run --exploration correlated --similarity obs --mixer vdn --seed 1 --total-steps 2000000 --out results_smax/smax_2s3z_vdn_correlated_obs_s1.npz
+2026-06-10 18:40:00.608935: F external/xla/xla/stream_executor/cuda/cuda_driver.cc:1357] Check failed: stream != nullptr 

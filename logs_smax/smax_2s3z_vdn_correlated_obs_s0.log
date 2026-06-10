@@ -1,0 +1,20 @@
+# /home/jwozniak/MARL/.venv/bin/python3 -m smax.run --exploration correlated --similarity obs --mixer vdn --seed 0 --total-steps 2000000 --out results_smax/smax_2s3z_vdn_correlated_obs_s0.npz
+2026-06-10 18:39:57.825384: W external/xla/xla/service/gpu/nvptx_compiler.cc:930] The NVIDIA driver's CUDA version is 12.7 which is older than the PTX compiler version 12.9.86. Because the driver is older than the PTX compiler version, XLA is disabling parallel compilation, which may slow down compilation. You should update your NVIDIA driver or use the NVIDIA-provided CUDA forward compatibility packages.
+[run] cfg={'seed': 0, 'total_steps': 2000000, 'n_envs': 128, 'buffer_cap': 100000, 'batch_size': 128, 'warmup': 5000, 'updates_per_iter': 1, 'target_sync': 200, 'gamma': 0.99, 'lr': 0.0003, 'grad_clip': 10.0, 'eps_start': 1.0, 'eps_end': 0.05, 'eps_anneal_steps': 100000, 'hidden_size': 128, 'exploration': 'correlated', 'similarity': 'obs', 'mixer': 'vdn', 'qmix_embed': 32, 'log_corr_every': 2000}
+E0610 18:40:17.282265  289220 cuda_blas.cc:198] failed to create cublas handle: the resource allocation failed
+E0610 18:40:17.282343  289220 cuda_blas.cc:201] Failure to initialize cublas may be due to OOM (cublas needs some free memory when you initialize it, and your deep-learning framework may have preallocated more than its fair share), or may be because this binary was not built with support for the GPU in your machine.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/jwozniak/MARL/smax/run.py", line 72, in <module>
+    main()
+  File "/home/jwozniak/MARL/smax/run.py", line 50, in main
+    result = train(cfg)
+             ^^^^^^^^^^
+  File "/home/jwozniak/MARL/smax/train.py", line 285, in train
+    q, hidden = forward_qnet(opt_params["qnet"], aug_obs)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jaxlib.xla_extension.XlaRuntimeError: INTERNAL: No BLAS support for stream
+--------------------
+For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+[cfg] n_agents=5  n_actions=10  obs_dim=127  state_dim=120  aug_dim=134
