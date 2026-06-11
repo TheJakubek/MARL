@@ -1,20 +1,85 @@
 # /home/jwozniak/MARL/.venv/bin/python3 -m smax.run --exploration independent --similarity obs --mixer qmix --seed 3 --total-steps 2000000 --out results_smax/smax_2s3z_qmix_independent_na_s3.npz
-2026-06-10 18:40:44.680933: W external/xla/xla/service/gpu/nvptx_compiler.cc:930] The NVIDIA driver's CUDA version is 12.7 which is older than the PTX compiler version 12.9.86. Because the driver is older than the PTX compiler version, XLA is disabling parallel compilation, which may slow down compilation. You should update your NVIDIA driver or use the NVIDIA-provided CUDA forward compatibility packages.
+2026-06-10 20:04:30.655372: W external/xla/xla/service/gpu/nvptx_compiler.cc:930] The NVIDIA driver's CUDA version is 12.7 which is older than the PTX compiler version 12.9.86. Because the driver is older than the PTX compiler version, XLA is disabling parallel compilation, which may slow down compilation. You should update your NVIDIA driver or use the NVIDIA-provided CUDA forward compatibility packages.
 [run] cfg={'seed': 3, 'total_steps': 2000000, 'n_envs': 128, 'buffer_cap': 100000, 'batch_size': 128, 'warmup': 5000, 'updates_per_iter': 1, 'target_sync': 200, 'gamma': 0.99, 'lr': 0.0003, 'grad_clip': 10.0, 'eps_start': 1.0, 'eps_end': 0.05, 'eps_anneal_steps': 100000, 'hidden_size': 128, 'exploration': 'independent', 'similarity': 'obs', 'mixer': 'qmix', 'qmix_embed': 32, 'log_corr_every': 2000}
-E0610 18:41:13.765811  290145 cuda_blas.cc:198] failed to create cublas handle: the resource allocation failed
-E0610 18:41:13.765897  290145 cuda_blas.cc:201] Failure to initialize cublas may be due to OOM (cublas needs some free memory when you initialize it, and your deep-learning framework may have preallocated more than its fair share), or may be because this binary was not built with support for the GPU in your machine.
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/home/jwozniak/MARL/smax/run.py", line 72, in <module>
-    main()
-  File "/home/jwozniak/MARL/smax/run.py", line 50, in main
-    result = train(cfg)
-             ^^^^^^^^^^
-  File "/home/jwozniak/MARL/smax/train.py", line 285, in train
-    q, hidden = forward_qnet(opt_params["qnet"], aug_obs)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-jaxlib.xla_extension.XlaRuntimeError: INTERNAL: No BLAS support for stream
---------------------
-For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
 [cfg] n_agents=5  n_actions=10  obs_dim=127  state_dim=120  aug_dim=134
+iter=     0  env_steps=        0  eps=1.000  episodes=     0  recent_return=0.00  win=0.00  buf=128
+iter=   200  env_steps=    25600  eps=0.757  episodes=   408  recent_return=0.23  win=0.00  buf=25728
+iter=   400  env_steps=    51200  eps=0.514  episodes=   853  recent_return=0.26  win=0.00  buf=51328
+iter=   600  env_steps=    76800  eps=0.270  episodes=  1389  recent_return=0.14  win=0.00  buf=76928
+iter=   800  env_steps=   102400  eps=0.050  episodes=  1988  recent_return=0.04  win=0.00  buf=100000
+iter=  1000  env_steps=   128000  eps=0.050  episodes=  2547  recent_return=0.03  win=0.00  buf=100000
+iter=  1200  env_steps=   153600  eps=0.050  episodes=  3040  recent_return=0.03  win=0.00  buf=100000
+iter=  1400  env_steps=   179200  eps=0.050  episodes=  3560  recent_return=0.03  win=0.00  buf=100000
+iter=  1600  env_steps=   204800  eps=0.050  episodes=  4048  recent_return=0.04  win=0.00  buf=100000
+iter=  1800  env_steps=   230400  eps=0.050  episodes=  4531  recent_return=0.06  win=0.00  buf=100000
+iter=  2000  env_steps=   256000  eps=0.050  episodes=  5011  recent_return=0.06  win=0.00  buf=100000
+iter=  2200  env_steps=   281600  eps=0.050  episodes=  5526  recent_return=0.04  win=0.00  buf=100000
+iter=  2400  env_steps=   307200  eps=0.050  episodes=  6030  recent_return=0.05  win=0.00  buf=100000
+iter=  2600  env_steps=   332800  eps=0.050  episodes=  6513  recent_return=0.11  win=0.00  buf=100000
+iter=  2800  env_steps=   358400  eps=0.050  episodes=  7073  recent_return=0.11  win=0.00  buf=100000
+iter=  3000  env_steps=   384000  eps=0.050  episodes=  7524  recent_return=0.09  win=0.00  buf=100000
+iter=  3200  env_steps=   409600  eps=0.050  episodes=  7991  recent_return=0.12  win=0.00  buf=100000
+iter=  3400  env_steps=   435200  eps=0.050  episodes=  8445  recent_return=0.08  win=0.00  buf=100000
+iter=  3600  env_steps=   460800  eps=0.050  episodes=  8891  recent_return=0.11  win=0.00  buf=100000
+iter=  3800  env_steps=   486400  eps=0.050  episodes=  9366  recent_return=0.19  win=0.00  buf=100000
+iter=  4000  env_steps=   512000  eps=0.050  episodes=  9829  recent_return=0.16  win=0.00  buf=100000
+iter=  4200  env_steps=   537600  eps=0.050  episodes= 10259  recent_return=0.22  win=0.00  buf=100000
+iter=  4400  env_steps=   563200  eps=0.050  episodes= 10737  recent_return=0.25  win=0.00  buf=100000
+iter=  4600  env_steps=   588800  eps=0.050  episodes= 11231  recent_return=0.19  win=0.00  buf=100000
+iter=  4800  env_steps=   614400  eps=0.050  episodes= 11659  recent_return=0.39  win=0.07  buf=100000
+iter=  5000  env_steps=   640000  eps=0.050  episodes= 12079  recent_return=0.42  win=0.20  buf=100000
+iter=  5200  env_steps=   665600  eps=0.050  episodes= 12507  recent_return=0.47  win=0.34  buf=100000
+iter=  5400  env_steps=   691200  eps=0.050  episodes= 12978  recent_return=0.37  win=0.04  buf=100000
+iter=  5600  env_steps=   716800  eps=0.050  episodes= 13418  recent_return=0.30  win=0.00  buf=100000
+iter=  5800  env_steps=   742400  eps=0.050  episodes= 13893  recent_return=0.34  win=0.01  buf=100000
+iter=  6000  env_steps=   768000  eps=0.050  episodes= 14345  recent_return=0.30  win=0.00  buf=100000
+iter=  6200  env_steps=   793600  eps=0.050  episodes= 14779  recent_return=0.21  win=0.00  buf=100000
+iter=  6400  env_steps=   819200  eps=0.050  episodes= 15226  recent_return=0.36  win=0.01  buf=100000
+iter=  6600  env_steps=   844800  eps=0.050  episodes= 15671  recent_return=0.35  win=0.01  buf=100000
+iter=  6800  env_steps=   870400  eps=0.050  episodes= 16138  recent_return=0.30  win=0.00  buf=100000
+iter=  7000  env_steps=   896000  eps=0.050  episodes= 16579  recent_return=0.29  win=0.00  buf=100000
+iter=  7200  env_steps=   921600  eps=0.050  episodes= 17039  recent_return=0.26  win=0.00  buf=100000
+iter=  7400  env_steps=   947200  eps=0.050  episodes= 17496  recent_return=0.19  win=0.00  buf=100000
+iter=  7600  env_steps=   972800  eps=0.050  episodes= 17925  recent_return=0.27  win=0.00  buf=100000
+iter=  7800  env_steps=   998400  eps=0.050  episodes= 18374  recent_return=0.20  win=0.00  buf=100000
+iter=  8000  env_steps=  1024000  eps=0.050  episodes= 18791  recent_return=0.18  win=0.00  buf=100000
+iter=  8200  env_steps=  1049600  eps=0.050  episodes= 19238  recent_return=0.25  win=0.00  buf=100000
+iter=  8400  env_steps=  1075200  eps=0.050  episodes= 19678  recent_return=0.20  win=0.00  buf=100000
+iter=  8600  env_steps=  1100800  eps=0.050  episodes= 20100  recent_return=0.12  win=0.00  buf=100000
+iter=  8800  env_steps=  1126400  eps=0.050  episodes= 20547  recent_return=0.24  win=0.00  buf=100000
+iter=  9000  env_steps=  1152000  eps=0.050  episodes= 20976  recent_return=0.22  win=0.00  buf=100000
+iter=  9200  env_steps=  1177600  eps=0.050  episodes= 21405  recent_return=0.23  win=0.00  buf=100000
+iter=  9400  env_steps=  1203200  eps=0.050  episodes= 21831  recent_return=0.20  win=0.00  buf=100000
+iter=  9600  env_steps=  1228800  eps=0.050  episodes= 22254  recent_return=0.20  win=0.00  buf=100000
+iter=  9800  env_steps=  1254400  eps=0.050  episodes= 22680  recent_return=0.25  win=0.00  buf=100000
+iter= 10000  env_steps=  1280000  eps=0.050  episodes= 23088  recent_return=0.15  win=0.00  buf=100000
+iter= 10200  env_steps=  1305600  eps=0.050  episodes= 23521  recent_return=0.22  win=0.01  buf=100000
+iter= 10400  env_steps=  1331200  eps=0.050  episodes= 23935  recent_return=0.30  win=0.01  buf=100000
+iter= 10600  env_steps=  1356800  eps=0.050  episodes= 24365  recent_return=0.22  win=0.00  buf=100000
+iter= 10800  env_steps=  1382400  eps=0.050  episodes= 24788  recent_return=0.18  win=0.00  buf=100000
+iter= 11000  env_steps=  1408000  eps=0.050  episodes= 25189  recent_return=0.13  win=0.00  buf=100000
+iter= 11200  env_steps=  1433600  eps=0.050  episodes= 25612  recent_return=0.20  win=0.00  buf=100000
+iter= 11400  env_steps=  1459200  eps=0.050  episodes= 26018  recent_return=0.16  win=0.00  buf=100000
+iter= 11600  env_steps=  1484800  eps=0.050  episodes= 26427  recent_return=0.20  win=0.00  buf=100000
+iter= 11800  env_steps=  1510400  eps=0.050  episodes= 26839  recent_return=0.19  win=0.00  buf=100000
+iter= 12000  env_steps=  1536000  eps=0.050  episodes= 27251  recent_return=0.18  win=0.00  buf=100000
+iter= 12200  env_steps=  1561600  eps=0.050  episodes= 27695  recent_return=0.30  win=0.01  buf=100000
+iter= 12400  env_steps=  1587200  eps=0.050  episodes= 28094  recent_return=0.22  win=0.00  buf=100000
+iter= 12600  env_steps=  1612800  eps=0.050  episodes= 28516  recent_return=0.31  win=0.00  buf=100000
+iter= 12800  env_steps=  1638400  eps=0.050  episodes= 28976  recent_return=0.36  win=0.06  buf=100000
+iter= 13000  env_steps=  1664000  eps=0.050  episodes= 29478  recent_return=0.44  win=0.23  buf=100000
+iter= 13200  env_steps=  1689600  eps=0.050  episodes= 29948  recent_return=0.37  win=0.01  buf=100000
+iter= 13400  env_steps=  1715200  eps=0.050  episodes= 30467  recent_return=0.26  win=0.00  buf=100000
+iter= 13600  env_steps=  1740800  eps=0.050  episodes= 30994  recent_return=0.24  win=0.00  buf=100000
+iter= 13800  env_steps=  1766400  eps=0.050  episodes= 31543  recent_return=0.26  win=0.00  buf=100000
+iter= 14000  env_steps=  1792000  eps=0.050  episodes= 32011  recent_return=0.32  win=0.00  buf=100000
+iter= 14200  env_steps=  1817600  eps=0.050  episodes= 32476  recent_return=0.31  win=0.00  buf=100000
+iter= 14400  env_steps=  1843200  eps=0.050  episodes= 32983  recent_return=0.21  win=0.00  buf=100000
+iter= 14600  env_steps=  1868800  eps=0.050  episodes= 33467  recent_return=0.26  win=0.00  buf=100000
+iter= 14800  env_steps=  1894400  eps=0.050  episodes= 33943  recent_return=0.28  win=0.00  buf=100000
+iter= 15000  env_steps=  1920000  eps=0.050  episodes= 34381  recent_return=0.27  win=0.00  buf=100000
+iter= 15200  env_steps=  1945600  eps=0.050  episodes= 34878  recent_return=0.18  win=0.00  buf=100000
+iter= 15400  env_steps=  1971200  eps=0.050  episodes= 35361  recent_return=0.29  win=0.00  buf=100000
+iter= 15600  env_steps=  1996800  eps=0.050  episodes= 35845  recent_return=0.20  win=0.00  buf=100000
+[run] 2000000 env-steps in 261s => 7660 env-steps/sec
+[run] saved -> results_smax/smax_2s3z_qmix_independent_na_s3.npz
