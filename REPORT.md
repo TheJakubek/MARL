@@ -19,7 +19,11 @@ environment (SMAX `2s3z`) implemented in JAX. Correlated exploration produces a
 clear early-learning speedup where coordination is the bottleneck (e.g. **+64%
 to +94%** relative success in *Hallway* at episodes 50–100) and discovers
 **2.6–2.9× more** coordinated successes on the hard *LBF* task, confirming that
-the exploration mechanism works even where downstream learning is unstable.
+the exploration mechanism works even where downstream learning is unstable. On
+SMAX `2s3z` all methods reach ~100% win rate, and correlated exploration reaches
+the 50%-win milestone **~11–15% faster** than independent; the learned
+correlation matrix recovers the scenario's two-role structure with no role
+information supplied.
 
 ## 1. Introduction and Hypothesis
 
@@ -180,15 +184,57 @@ similarity signal, whereas the raw observation is informative from step one.
 
 ## 5. SMAX `2s3z` (StarCraft-like, JAX)
 
-*This section will be completed once the GPU grid finishes.* We reimplemented
-the full method in pure JAX (Flax networks, Optax optimiser) against the
-JaxMARL SMAX environment, vectorising 128 parallel environments with `jax.vmap`
-for throughput (~6900 environment-steps/second on a single RTX 2080 Ti). The
-`2s3z` scenario (2 stalkers + 3 zealots vs. a mirrored enemy team) is a genuine
-5-agent, two-role coordination task. We run the same ablation
-(VDN/QMIX × independent/`obs`/`q_values`/`hidden` × 5 seeds, 2M env-steps each)
-and additionally log the learned correlation matrix to verify the expected
-block structure across the two unit types.
+We reimplemented the full method in pure JAX (Flax networks, Optax optimiser)
+against the JaxMARL SMAX environment, vectorising 128 parallel environments with
+`jax.vmap` (~6900 environment-steps/second on a single RTX 2080 Ti). The `2s3z`
+scenario (2 stalkers + 3 zealots vs. a mirrored enemy team) is a genuine
+5-agent, two-role coordination task. We ran the same ablation
+(VDN/QMIX × independent/`obs`/`q_values`/`hidden` × 5 seeds, 2M env-steps each).
+
+### 5.1 Getting a from-scratch value-based learner to converge
+
+Our first runs did not learn at all (flat ~0% win rate). Diagnosis showed the
+TD loss **diverging** to $10^4$–$10^6$ — classic Q-value explosion, not
+under-training (an 8× higher replay ratio did not help). Four standard
+stabilisers fixed it: **(i)** Double DQN targets (online net selects the next
+action, target net evaluates it) to curb overestimation; **(ii)** Polyak soft
+target updates ($\tau{=}0.005$) instead of hard syncs; **(iii)** learning rate
+$10^{-4}$; and crucially **(iv)** a `LayerNorm` on the QMIX mixer's state input —
+the SMAX global state is unnormalised (values up to ~24), which blew up the
+mixer's `abs()`-weighted hypernetwork. After these, both backbones train stably
+and **solve `2s3z` to ~100% win rate**.
+
+### 5.2 Correlated exploration learns faster
+
+![SMAX QMIX](plot_smax_qmix.png)
+![SMAX VDN](plot_smax_vdn.png)
+
+Because every configuration eventually reaches ~100% win rate, the meaningful
+signal — exactly as in *Hallway* — is the **early-learning speed**. Measuring the
+fraction of training needed to first reach a 50% win rate (lower = faster):
+
+| Backbone | Independent | Best correlated | Speed-up |
+|---|---|---|---|
+| VDN  | 0.338 | **0.302** (`obs`) | ~11% faster |
+| QMIX | 0.434 | **0.368** (`hidden`) | ~15% faster |
+
+The effect is clearest under QMIX, where all three correlated variants visibly
+separate from independent through the 35–55% region of training before all
+curves saturate at 1.0. The ordering is consistent: every correlated variant
+reaches the 50% milestone before independent, on both backbones.
+
+### 5.3 The method recovers role structure for free
+
+![SMAX learned correlation](plot_smax_corr_matrix.png)
+
+Logging the learned correlation matrix confirms the central design claim: with
+**no role information supplied**, cosine similarity recovers the two-role
+structure of `2s3z`. With the `obs` source the two stalkers are the most
+correlated pair (0.80) while cross-role (stalker–zealot) correlations are lowest
+(~0.50); the `hidden` source shows the same block structure even more sharply.
+The copula thus couples *same-role* agents — which is exactly the kind of
+coordinated exploration the method is meant to induce — without being told what
+the roles are.
 
 ## 6. Discussion and Limitations
 
@@ -210,8 +256,10 @@ parameterised by cosine similarity is a simple, drop-in change that
 measurably accelerates cooperative MARL on coordination-bottlenecked tasks
 (+64–94% early success on *Hallway*) and demonstrably improves exploration
 quality even where value learning fails (2.6–2.9× higher peak on *LBF*). The raw
-observation is the most dependable similarity source. The SMAX experiments will
-test whether these findings transfer to a larger, two-role, GPU-scale task.
+observation is the most dependable similarity source. The findings transfer to
+the larger, two-role, GPU-scale SMAX `2s3z` task, where correlated exploration
+reaches a 50% win rate ~11–15% faster than independent and the learned
+correlation matrix recovers the unit-type structure automatically.
 
 ---
 
