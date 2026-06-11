@@ -57,7 +57,7 @@ class Config:
     buffer_cap: int = 100_000
     batch_size: int = 128
     warmup: int = 5_000                        # env steps before learning starts
-    updates_per_iter: int = 1                  # gradient steps per rollout iteration
+    updates_per_iter: int = 8                  # gradient steps per rollout iteration (replay ratio)
     target_sync: int = 200                     # in iterations
     gamma: float = 0.99
     lr: float = 3e-4

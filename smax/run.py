@@ -28,6 +28,10 @@ def main():
     ap.add_argument("--buffer-cap", type=int, default=100_000)
     ap.add_argument("--batch-size", type=int, default=128)
     ap.add_argument("--warmup", type=int, default=5_000)
+    ap.add_argument("--updates-per-iter", type=int, default=8,
+                    help="Gradient steps per rollout iteration (replay ratio).")
+    ap.add_argument("--target-sync", type=int, default=200,
+                    help="Target-network sync period, in iterations.")
     ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--out", type=str, required=True)
     args = ap.parse_args()
@@ -39,6 +43,8 @@ def main():
         buffer_cap=args.buffer_cap,
         batch_size=args.batch_size,
         warmup=args.warmup,
+        updates_per_iter=args.updates_per_iter,
+        target_sync=args.target_sync,
         lr=args.lr,
         exploration=args.exploration,
         similarity=args.similarity,
