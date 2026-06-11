@@ -32,7 +32,7 @@ def main():
                     help="Gradient steps per rollout iteration (replay ratio).")
     ap.add_argument("--target-sync", type=int, default=200,
                     help="Target-network sync period, in iterations.")
-    ap.add_argument("--lr", type=float, default=3e-4)
+    ap.add_argument("--lr", type=float, default=1e-4)
     ap.add_argument("--out", type=str, required=True)
     args = ap.parse_args()
 

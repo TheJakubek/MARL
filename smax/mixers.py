@@ -30,6 +30,11 @@ class QMixMixer(nn.Module):
             q_chosen = q_chosen[None]   # (1, n_agents)
             state = state[None]         # (1, state_dim)
 
+        # SMAX world_state is unnormalised (values up to ~24), which makes the
+        # abs()-weighted hypernetwork blow q_tot up and the TD loss diverge.
+        # Normalise it before the hypernetwork.
+        state = nn.LayerNorm()(state)
+
         # Hypernet: state -> w1 (n_agents x embed_dim), b1 (embed_dim)
         w1 = nn.Dense(self.hyper_hidden)(state)
         w1 = nn.relu(w1)

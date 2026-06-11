@@ -58,9 +58,10 @@ class Config:
     batch_size: int = 128
     warmup: int = 5_000                        # env steps before learning starts
     updates_per_iter: int = 8                  # gradient steps per rollout iteration (replay ratio)
-    target_sync: int = 200                     # in iterations
+    target_sync: int = 200                     # in iterations (used only if tau is None)
+    tau: float = 0.005                         # Polyak soft-update rate (per gradient step)
     gamma: float = 0.99
-    lr: float = 3e-4
+    lr: float = 1e-4
     grad_clip: float = 10.0
     eps_start: float = 1.0
     eps_end: float = 0.05
@@ -219,19 +220,27 @@ def train(cfg: Config):
             q_all, actions_b[..., None], axis=-1
         ).squeeze(-1)                          # (B, n_agents)
 
-        # Target Q: max over avail with target net.
-        q_next_all = jax.vmap(online_q, in_axes=(None, 0))(
+        # Double DQN: pick next action with the ONLINE net, evaluate it with
+        # the TARGET net. This fights the Q-overestimation that otherwise makes
+        # the values diverge.
+        q_next_online = jax.vmap(online_q, in_axes=(None, 0))(
+            params["qnet"], next_obs_b
+        )
+        masked_online = jnp.where(
+            next_avail_b.astype(jnp.bool_), q_next_online, -1e9
+        )
+        next_actions = jnp.argmax(masked_online, axis=-1)        # (B, n_agents)
+        q_next_target = jax.vmap(online_q, in_axes=(None, 0))(
             params["target_qnet"], next_obs_b
         )
-        masked = jnp.where(
-            next_avail_b.astype(jnp.bool_), q_next_all, -1e9
-        )
-        q_next_max = jnp.max(masked, axis=-1)   # (B, n_agents)
+        q_next_chosen = jnp.take_along_axis(
+            q_next_target, next_actions[..., None], axis=-1
+        ).squeeze(-1)                                            # (B, n_agents)
 
         # Mix.
         q_tot = mixer.apply(params["mixer"], q_chosen, state_b).squeeze(-1)
         q_tot_next = mixer.apply(
-            params["target_mixer"], q_next_max, next_state_b
+            params["target_mixer"], q_next_chosen, next_state_b
         ).squeeze(-1)
 
         # Bellman target.
@@ -252,7 +261,14 @@ def train(cfg: Config):
         upd_grads = {"qnet": grads["qnet"], "mixer": grads["mixer"]}
         updates, opt_state = tx.update(upd_grads, opt_state, opt_params)
         opt_params = optax.apply_updates(opt_params, updates)
-        return opt_params, opt_state, loss
+        # Polyak soft update of targets toward the online params every step.
+        target_qnet_params = optax.incremental_update(
+            opt_params["qnet"], target_qnet_params, cfg.tau
+        )
+        target_mixer_params = optax.incremental_update(
+            opt_params["mixer"], target_mixer_params, cfg.tau
+        )
+        return opt_params, opt_state, target_qnet_params, target_mixer_params, loss
 
     # --- Run (N parallel envs) ---
     N = cfg.n_envs
@@ -336,21 +352,17 @@ def train(cfg: Config):
             ep_wins.append(1 if ep_return[e] > 0.5 else 0)
             ep_return[e] = 0.0
 
-        # Train.
+        # Train. Targets are soft-updated (Polyak) inside `update` each step.
         if buf.size >= cfg.warmup:
             for _ in range(cfg.updates_per_iter):
                 batch_np = buf.sample(cfg.batch_size, rng_np)
                 batch_jax = {kk: jnp.asarray(vv) for kk, vv in batch_np.items()}
-                opt_params, opt_state, loss = update(
+                (opt_params, opt_state, target_qnet_params,
+                 target_mixer_params, loss) = update(
                     opt_params, opt_state, target_qnet_params,
                     target_mixer_params, batch_jax,
                 )
                 losses.append(float(loss))
-
-        # Sync targets (counted in iterations).
-        if it > 0 and it % cfg.target_sync == 0:
-            target_qnet_params = opt_params["qnet"]
-            target_mixer_params = opt_params["mixer"]
 
         # Advance (auto-reset handled inside vmap_step).
         obs_dict, state = next_obs_dict, next_state
