@@ -12,8 +12,8 @@ joint action vanish exponentially in the number of agents. We replace
 independent $\varepsilon$-greedy with **correlated $\varepsilon$-greedy**: the
 agents' exploration decisions are coupled through a Gaussian copula whose
 correlation matrix is built from the cosine similarity of per-agent features.
-We evaluate the method on three cooperative benchmarks (a custom *Hallway*,
-*CoordinatedSwitches*, and *Level-Based Foraging*) with two value-decomposition
+We evaluate the method on two cooperative benchmarks (a custom *Hallway* and
+*Level-Based Foraging*) with two value-decomposition
 backbones (VDN and QMIX), and port the method to a GPU-accelerated StarCraft-like
 environment (SMAX `2s3z`) implemented in JAX. Correlated exploration produces a
 clear early-learning speedup where coordination is the bottleneck (e.g. **+64%
@@ -98,12 +98,9 @@ boundaries without any role information being supplied.
   lengths 3 and 4; each sees only its own position. The team is rewarded only
   when *both* reach position 0 in the same step. Coordination is the entire
   task. 3 actions (left / stay / right).
-- **CoordinatedSwitches** (custom, 5×5 grid). Two agents, two switches in
-  opposite corners; reward +1 only when both agents stand on switches
-  simultaneously. 5 actions.
 - **Level-Based Foraging** (`Foraging-5x5-2p-1f-coop-v3`). Two agents must load
   a single food item *together* (cooperative variant). Sparse reward; the
-  hardest of the three.
+  harder of the two.
 
 ### 3.2 Algorithms
 
@@ -119,8 +116,8 @@ observation):
 Training uses a DQN-style loop (Adam, `lr=1e-4`, target network synced every
 500 steps, $\gamma=0.99$, gradient-norm clipping at 10). On *LBF* only we add a
 **balanced replay buffer** that oversamples the rare successful transitions, to
-mitigate the extreme reward sparsity. Each configuration is run over **5 seeds**
-(3 for *Switches*). Plots show mean ± std of the smoothed success rate.
+mitigate the extreme reward sparsity. Each configuration is run over **5 seeds**.
+Plots show mean ± std of the smoothed success rate.
 
 ## 4. Results
 
@@ -163,18 +160,7 @@ doing its job (finding joint successes that independent exploration misses); the
 failure to *retain* them is a separate problem of value-based learning under
 extreme sparsity, not a failure of the exploration scheme.
 
-### 4.3 CoordinatedSwitches — weak, noisy signal
-
-![Switches VDN](plot_switches_vdn.png)
-![Switches QMIX](plot_switches_qmix.png)
-
-On *Switches* the methods are closely bunched and the signal is noisy (only 3
-seeds). Correlated-`hidden` reaches the best final success rate (0.82 VDN /
-0.86 QMIX vs 0.71 / 0.61 for independent), but the early-learning advantage seen
-in *Hallway* is not pronounced here, because the first success takes much longer
-to appear (early success ≈ 0 for all methods).
-
-### 4.4 Which similarity source?
+### 4.3 Which similarity source?
 
 `obs` is the most reliable source — it gives the largest and most consistent
 early-learning gain (Hallway) and the highest LBF peak under VDN. `q_values` and
@@ -245,9 +231,9 @@ the roles are.
   the gain is not retained.
 - **`obs` similarity is the safe default.** Learned features (`q_values`,
   `hidden`) are unreliable early in training, exactly when exploration matters.
-- **Limitations.** Only 2 agents in the toy tasks; *Switches* used 3 seeds; the
-  catastrophic forgetting on *LBF* limits the conclusiveness of that benchmark;
-  and the correlation is recomputed greedily each step rather than annealed.
+- **Limitations.** Only 2 agents in the toy tasks; the catastrophic forgetting
+  on *LBF* limits the conclusiveness of that benchmark; and the correlation is
+  recomputed greedily each step rather than annealed.
 
 ## 7. Conclusion
 
@@ -265,6 +251,6 @@ correlation matrix recovers the unit-type structure automatically.
 
 ### Reproducibility
 
-- Toy benchmarks: `python long_run.py --env {hallway,switches,lbf} --mixer {vdn,qmix} --exploration {independent,correlated} --similarity {obs,q_values,hidden} --seed S`
+- Toy benchmarks: `python long_run.py --env {hallway,lbf} --mixer {vdn,qmix} --exploration {independent,correlated} --similarity {obs,q_values,hidden} --seed S`
 - Grid: `python run_grid.py ...` (idempotent); plots: `python plot_results.py --env ENV --mixer MIX`.
 - SMAX: `python -m smax.run --exploration ... --mixer ... --similarity ... --seed S`; grid via `run_smax_grid.py`.
