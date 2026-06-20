@@ -190,16 +190,13 @@ scenario (2 stalkers + 3 zealots vs. a mirrored enemy team) is a genuine
 
 ### 5.1 Getting a from-scratch value-based learner to converge
 
-Our first runs did not learn at all (flat ~0% win rate). Diagnosis showed the
-TD loss **diverging** to $10^4$–$10^6$ — classic Q-value explosion, not
-under-training (an 8× higher replay ratio did not help). Four standard
-stabilisers fixed it: **(i)** Double DQN targets (online net selects the next
-action, target net evaluates it) to curb overestimation; **(ii)** Polyak soft
-target updates ($\tau{=}0.005$) instead of hard syncs; **(iii)** learning rate
-$10^{-4}$; and crucially **(iv)** a `LayerNorm` on the QMIX mixer's state input —
-the SMAX global state is unnormalised (values up to ~24), which blew up the
-mixer's `abs()`-weighted hypernetwork. After these, both backbones train stably
-and **solve `2s3z` to ~100% win rate**.
+Our first runs did not learn (flat ~0% win rate) because the TD loss **diverged**
+to $10^4$–$10^6$ — Q-value explosion, not under-training. Four standard
+stabilisers fixed it: Double DQN targets, Polyak soft target updates
+($\tau{=}0.005$), $\text{lr}=10^{-4}$, and a `LayerNorm` on the QMIX mixer's
+unnormalised global-state input (values up to ~24 otherwise blew up the
+`abs()`-weighted hypernetwork). Both backbones then **solve `2s3z` to ~100% win
+rate**.
 
 ### 5.2 Correlated exploration learns faster
 
@@ -290,6 +287,25 @@ the larger, two-role, GPU-scale SMAX `2s3z` task, where correlated exploration
 reaches a 50% win rate ~11–15% faster than independent, and the `obs`-based
 correlation couples situationally-similar agents during the exploration phase
 (the two stalkers most strongly) with no role information supplied.
+
+## 8. Use of AI tools
+
+The project was developed with **Claude Code** (Anthropic Claude Opus) as a
+pair-programming assistant.
+
+- **What it was used for:** implementing the PyTorch toy-environment MARL stack
+  (VDN/QMIX, replay buffers, exploration) and the from-scratch JAX/JaxMARL SMAX
+  pipeline; debugging cluster issues (CUDA/cuDNN wheels, multi-process GPU OOM);
+  diagnosing training failures; generating figures; and drafting this report.
+- **What worked well:** fast iteration on boilerplate; systematic debugging —
+  e.g. correctly diagnosing the SMAX Q-value divergence from the loss curve and
+  the ~50× `jax.vmap` throughput rewrite.
+- **What did not:** several defaults it chose were wrong and needed correction.
+  Most importantly, its first SMAX exploration correlated *whether* each agent
+  explored rather than *which action* it took — a subtle conceptual bug that only
+  surfaced in **human code review**, not from the tool itself. The initial SMAX
+  hyper-parameters also diverged. The lesson: the assistant accelerates
+  implementation but its output requires careful conceptual verification.
 
 ---
 
