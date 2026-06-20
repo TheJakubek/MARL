@@ -21,10 +21,10 @@ clear early-learning speedup where coordination is the bottleneck (e.g. **+64%
 to +94%** relative success in *Hallway* at episodes 50–100) and discovers
 **2.6–2.9× more** coordinated successes on the hard *LBF* task, confirming that
 the exploration mechanism works even where downstream learning is unstable. On
-SMAX `2s3z` all methods reach ~100% win rate, and correlated exploration reaches
-the 50%-win milestone **~11–15% faster** than independent; and the `obs`-based
-correlation couples situationally-similar agents during the exploration-heavy
-phase (the two stalkers most strongly), with no role information supplied.
+SMAX `2s3z`, correlated exploration speeds up convergence under VDN and, under
+the harder QMIX mixer, **lifts the final win rate from 0.81 to 0.91**; the
+`obs`-based correlation couples situationally-similar agents (the two stalkers
+most strongly) with no role information supplied.
 
 ## 1. Introduction and Hypothesis
 
@@ -175,12 +175,6 @@ similarity signal, whereas the raw observation is informative from step one.
 
 ## 5. SMAX `2s3z` (StarCraft-like, JAX)
 
-> **Note:** the figures and numbers in §5.2–5.3 are currently being regenerated
-> after a fix to the correlated-exploration mechanism (it now correlates *which
-> action* exploring agents take, matching §2 and the toy implementation, rather
-> than *whether* they explore). The qualitative story is expected to hold or
-> strengthen; this note will be removed once the corrected grid completes.
-
 We reimplemented the full method in pure JAX (Flax networks, Optax optimiser)
 against the JaxMARL SMAX environment, vectorising 128 parallel environments with
 `jax.vmap` (~6900 environment-steps/second on a single RTX 2080 Ti). The `2s3z`
@@ -198,24 +192,31 @@ unnormalised global-state input (values up to ~24 otherwise blew up the
 `abs()`-weighted hypernetwork). Both backbones then **solve `2s3z` to ~100% win
 rate**.
 
-### 5.2 Correlated exploration learns faster
+### 5.2 Correlated exploration helps, most on the harder mixer
 
 ![SMAX QMIX](plot_smax_qmix.png)
 ![SMAX VDN](plot_smax_vdn.png)
 
-Because every configuration eventually reaches ~100% win rate, the meaningful
-signal — exactly as in *Hallway* — is the **early-learning speed**. Measuring the
-fraction of training needed to first reach a 50% win rate (lower = faster):
+We report two metrics per configuration (5 seeds): the final win rate (mean over
+the last 10% of episodes) and the fraction of training needed to first reach a
+50% win rate (lower = faster).
 
-| Backbone | Independent | Best correlated | Speed-up |
-|---|---|---|---|
-| VDN  | 0.338 | **0.302** (`obs`) | ~11% faster |
-| QMIX | 0.434 | **0.368** (`hidden`) | ~15% faster |
+| Backbone | Independent (final / to-50%) | Best correlated (final / to-50%) |
+|---|---|---|
+| VDN  | 0.95 / 0.70 | 0.95 / **0.66** (`q_values`) |
+| QMIX | 0.81 / 0.74 | **0.91** / **0.65** (`hidden`) |
 
-The effect is clearest under QMIX, where all three correlated variants visibly
-separate from independent through the 35–55% region of training before all
-curves saturate at 1.0. The ordering is consistent: every correlated variant
-reaches the 50% milestone before independent, on both backbones.
+- **VDN** (simple additive mixer) is easy enough that every variant converges to
+  the same ~0.95 win rate; correlated exploration just reaches the 50% milestone
+  somewhat sooner (≈6% earlier).
+- **QMIX** (harder monotonic mixer) is where correlated exploration clearly
+  helps: independent plateaus lower (0.81) and with high seed-to-seed variance,
+  while the correlated variants reach a **higher and more reliable final win rate
+  (0.90–0.91)** and get there faster. The learning curves show all three
+  correlated variants tracking above independent through most of training.
+
+This matches the hypothesis: coupling the exploratory actions (here, coordinated
+focus-fire) helps most when credit assignment is harder.
 
 ### 5.3 When does the correlation encode roles?
 
@@ -247,13 +248,13 @@ The end-of-training snapshot makes the collapse concrete:
 
 By convergence `q_values` and `hidden` are near-uniform (~0.95–1.0) — every agent
 values the same actions. The `obs` panel is more nuanced: the two stalkers are
-consistently the **most strongly coupled pair (0.80)**, but the partition is not
-cleanly by unit type — here `zealot_0` is also strongly correlated with the
-stalkers (~0.74), while `zealot_1`/`zealot_2` form a separate group. This is
-expected: cosine similarity on the observation measures **situational**
-similarity (relative positions, visible enemies, health, last action), of which
-unit type is a strong but not exclusive component. At convergence a zealot that
-happens to fight alongside the stalkers looks situationally like them.
+consistently the **most strongly coupled pair (~0.9)**, but the partition is not
+cleanly by unit type — typically one zealot couples strongly with the stalkers
+(~0.7) while the others group separately, and which zealot this is varies across
+seeds. This is expected: cosine similarity on the observation measures
+**situational** similarity (relative positions, visible enemies, health, last
+action), of which unit type is a strong but not exclusive component — a zealot
+fighting alongside the stalkers looks situationally like them.
 
 For the method this is arguably the *right* behaviour: correlated exploration
 should couple agents that are in **similar situations**, not merely the same
@@ -284,9 +285,9 @@ measurably accelerates cooperative MARL on coordination-bottlenecked tasks
 quality even where value learning fails (2.6–2.9× higher peak on *LBF*). The raw
 observation is the most dependable similarity source. The findings transfer to
 the larger, two-role, GPU-scale SMAX `2s3z` task, where correlated exploration
-reaches a 50% win rate ~11–15% faster than independent, and the `obs`-based
-correlation couples situationally-similar agents during the exploration phase
-(the two stalkers most strongly) with no role information supplied.
+speeds up convergence and, under QMIX, raises the final win rate (0.81 → 0.91);
+the `obs`-based correlation couples situationally-similar agents (the two
+stalkers most strongly) with no role information supplied.
 
 ## 8. Use of AI tools
 
