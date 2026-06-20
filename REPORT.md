@@ -246,8 +246,13 @@ The end-of-training snapshot makes the collapse concrete:
 
 ![SMAX learned correlation (convergence)](plot_smax_corr_matrix.png)
 
-By convergence `q_values` and `hidden` are near-uniform (~0.95–1.0) — every agent
-values the same actions. The `obs` panel is more nuanced: the two stalkers are
+By convergence `q_values` is essentially **uniform (~0.99)**. This is partly an
+artefact of cosine similarity: a converged policy has large, all-positive
+Q-vectors (returns ≈ 2), and the cosine between two large positive vectors is
+dominated by their shared offset — it sits near 1 regardless of the finer
+structure (mean-centring the same vectors drops the similarity to ~0.85). So
+`q_values` cannot discriminate agents once training converges. `hidden` is also
+high (~0.9) but retains a little more structure. The `obs` panel is more nuanced: the two stalkers are
 consistently the **most strongly coupled pair (~0.9)**, but the partition is not
 cleanly by unit type — typically one zealot couples strongly with the stalkers
 (~0.7) while the others group separately, and which zealot this is varies across
