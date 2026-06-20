@@ -21,9 +21,9 @@ to +94%** relative success in *Hallway* at episodes 50–100) and discovers
 **2.6–2.9× more** coordinated successes on the hard *LBF* task, confirming that
 the exploration mechanism works even where downstream learning is unstable. On
 SMAX `2s3z` all methods reach ~100% win rate, and correlated exploration reaches
-the 50%-win milestone **~11–15% faster** than independent; the learned
-correlation matrix recovers the scenario's two-role structure with no role
-information supplied.
+the 50%-win milestone **~11–15% faster** than independent; and the `obs`-based
+correlation couples situationally-similar agents during the exploration-heavy
+phase (the two stalkers most strongly), with no role information supplied.
 
 ## 1. Introduction and Hypothesis
 
@@ -209,26 +209,50 @@ separate from independent through the 35–55% region of training before all
 curves saturate at 1.0. The ordering is consistent: every correlated variant
 reaches the 50% milestone before independent, on both backbones.
 
-### 5.3 What the learned correlation matrix reveals
+### 5.3 When does the correlation encode roles?
 
-![SMAX learned correlation](plot_smax_corr_matrix.png)
+The copula recomputes the correlation matrix *live* at every step, and
+exploration is most active early in training (high $\varepsilon$). So the
+relevant question is not just *whether* but *when* the matrix carries role
+structure. As a summary statistic we use a **role-contrast** score
+= mean(within-role correlation) − mean(cross-role correlation): positive means
+the copula tends to couple same-role agents more than cross-role ones, ~0 means
+uniform. (As we discuss below, `obs` actually captures *situational* similarity,
+of which role is a major component.)
 
-Logging the correlation matrix (averaged over seeds, end of training) exposes a
-clear difference between the similarity sources — and explains why `obs` is the
-most reliable one.
+![SMAX role contrast over training](plot_smax_corr_evolution.png)
 
-- **`obs`** retains discriminative structure: the two stalkers are strongly
-  coupled (0.80) and clearly separated from the zealots `z1`/`z2` (0.25), with no
-  role information ever supplied. The raw observation always encodes unit type,
-  so this structure persists throughout training.
-- **`q_values`** and **`hidden`** are near-uniform (~0.95–1.0): by convergence
-  every agent has learned the same focus-fire behaviour, so the learned
-  Q-values and backbone activations *homogenise* and lose the role distinction.
+- **`obs`** keeps a clearly **positive** role contrast throughout training,
+  highest in the early-to-mid phase — exactly when $\varepsilon$ is large and
+  exploration matters. The raw observation always encodes unit type, so this
+  signal is available from step 0 and does not depend on the (initially random)
+  network.
+- **`q_values`** is **noisy and unreliable** (large variance, dips below zero):
+  early it reflects a random network, later it collapses as all agents converge
+  to the same focus-fire values.
+- **`hidden`** carries only a **weak** contrast — the learned representation does
+  not preserve role identity for this purpose.
 
-This is exactly why `obs` is the dependable choice: learned features become
-uninformative for correlation as the policy converges, whereas the observation
-keeps coupling genuinely-similar agents — the coordinated exploration the method
-is meant to induce.
+The end-of-training snapshot makes the collapse concrete:
+
+![SMAX learned correlation (convergence)](plot_smax_corr_matrix.png)
+
+By convergence `q_values` and `hidden` are near-uniform (~0.95–1.0) — every agent
+values the same actions. The `obs` panel is more nuanced: the two stalkers are
+consistently the **most strongly coupled pair (0.80)**, but the partition is not
+cleanly by unit type — here `zealot_0` is also strongly correlated with the
+stalkers (~0.74), while `zealot_1`/`zealot_2` form a separate group. This is
+expected: cosine similarity on the observation measures **situational**
+similarity (relative positions, visible enemies, health, last action), of which
+unit type is a strong but not exclusive component. At convergence a zealot that
+happens to fight alongside the stalkers looks situationally like them.
+
+For the method this is arguably the *right* behaviour: correlated exploration
+should couple agents that are in **similar situations**, not merely the same
+nominal role. The takeaway for the similarity-source comparison still holds —
+`obs` provides a stable, interpretable coupling throughout the
+exploration-heavy phase, whereas the learned `q_values`/`hidden` features become
+uninformative as the policy converges.
 
 ## 6. Discussion and Limitations
 
@@ -252,8 +276,9 @@ measurably accelerates cooperative MARL on coordination-bottlenecked tasks
 quality even where value learning fails (2.6–2.9× higher peak on *LBF*). The raw
 observation is the most dependable similarity source. The findings transfer to
 the larger, two-role, GPU-scale SMAX `2s3z` task, where correlated exploration
-reaches a 50% win rate ~11–15% faster than independent and the learned
-correlation matrix recovers the unit-type structure automatically.
+reaches a 50% win rate ~11–15% faster than independent, and the `obs`-based
+correlation couples situationally-similar agents during the exploration phase
+(the two stalkers most strongly) with no role information supplied.
 
 ---
 

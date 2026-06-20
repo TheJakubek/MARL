@@ -100,13 +100,13 @@ converge required Double DQN + soft targets + state LayerNorm.)*
 
 ---
 
-## Result 4 — what the correlation matrix reveals
+## Result 4 — *when* does correlation encode roles?
 
-![w:880](plot_smax_corr_matrix.png)
+![w:620](plot_smax_corr_evolution.png)
 
-**`obs`** keeps role structure (stalker pair 0.80 vs. 0.25 to zealots) — the
-observation always encodes unit type. **`q_values`/`hidden`** homogenise
-(~0.95+) as the policy converges → why `obs` is the reliable source.
+Role contrast = within-role − cross-role correlation. **`obs`** stays positive
+through the exploration-heavy phase (always encodes unit type); **`q_values`**
+is noisy, **`hidden`** weak → why `obs` is the reliable source.
 
 ---
 
