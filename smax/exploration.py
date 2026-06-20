@@ -3,7 +3,8 @@
 All functions are pure and jittable. They take a PRNGKey, return the actions.
 
 The Gaussian copula construction:
-  1. similarity matrix S from per-agent feature vectors (cosine, then clip to [0,1])
+  1. similarity matrix S from per-agent feature vectors (cosine; values in [-1,1],
+     negative correlations are valid and kept)
   2. add jitter -> PSD correlation matrix R
   3. cholesky factor L
   4. sample z ~ N(0, I), set y = L z       => y ~ N(0, R)
@@ -40,10 +41,41 @@ def _per_agent_pick(
     u: jnp.ndarray,         # scalar in [0,1]
     eps: float,
 ) -> jnp.ndarray:
-    """If u < eps -> random masked action. Else greedy."""
+    """Independent eps-greedy: if u < eps -> random masked action, else greedy."""
     rand_a = _random_action(key, avail)
     greedy_a = _greedy(q, avail)
     return jnp.where(u < eps, rand_a, greedy_a)
+
+
+def _action_from_uniform(u: jnp.ndarray, avail: jnp.ndarray) -> jnp.ndarray:
+    """Map a uniform u in [0,1] to the floor(u * n_avail)-th AVAILABLE action.
+
+    This is the masked analogue of the toy version's `floor(u * n_actions)`:
+    two agents that draw a similar u (because they are correlated) and share the
+    same availability mask pick the same action index -> coordinated joint action
+    (e.g. focus-firing the same enemy in SMAX).
+    """
+    avail_i = avail.astype(jnp.int32)
+    n_avail = jnp.sum(avail_i)
+    rank = jnp.clip((u * n_avail).astype(jnp.int32), 0, n_avail - 1)
+    # The rank-th available action is the first index whose cumulative count exceeds rank.
+    cumulative = jnp.cumsum(avail_i)
+    return jnp.argmax(cumulative > rank)
+
+
+def _per_agent_pick_correlated(
+    q: jnp.ndarray,         # (n_actions,)
+    avail: jnp.ndarray,     # (n_actions,)
+    u: jnp.ndarray,         # scalar in [0,1], CORRELATED across agents
+    explore: jnp.ndarray,   # bool scalar, independent across agents
+) -> jnp.ndarray:
+    """If exploring -> action drawn from the correlated copula uniform; else greedy.
+
+    Mirrors the toy `CorrelatedEpsilonGreedy`: *which* random action is correlated
+    across agents, while *who* explores is an independent Bernoulli."""
+    corr_a = _action_from_uniform(u, avail)
+    greedy_a = _greedy(q, avail)
+    return jnp.where(explore, corr_a, greedy_a)
 
 
 def select_independent(
@@ -98,14 +130,19 @@ def select_correlated(
     features: jnp.ndarray,  # (n_agents, feat_dim)  for similarity
     eps: float,
 ) -> jnp.ndarray:
-    """Correlated eps-greedy: agents share a Gaussian-copula uniform draw."""
+    """Correlated eps-greedy: the random *action* is drawn from a Gaussian copula.
+
+    `u` (correlated across agents via the cosine-similarity matrix) selects which
+    action an exploring agent takes; `explore` (independent Bernoulli, same budget
+    as the baseline) selects who explores. This matches the toy implementation and
+    is what induces coordinated joint actions."""
     R = correlation_matrix(features)
-    k_u, k_r = jax.random.split(key, 2)
-    u = sample_correlated_uniforms(k_u, R)              # (n,)
+    k_u, k_e = jax.random.split(key, 2)
+    u = sample_correlated_uniforms(k_u, R)              # (n,) correlated -> ACTION
     n = q.shape[0]
-    rkeys = jax.random.split(k_r, n)
-    return jax.vmap(_per_agent_pick, in_axes=(0, 0, 0, 0, None))(
-        rkeys, q, avail, u, eps
+    explore = jax.random.uniform(k_e, shape=(n,)) < eps  # independent -> WHO explores
+    return jax.vmap(_per_agent_pick_correlated, in_axes=(0, 0, 0, 0))(
+        q, avail, u, explore
     )
 
 

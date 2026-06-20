@@ -40,11 +40,17 @@ ROLE_TO_IDX = {"stalker": 2, "zealot": 3}
 N_ROLES = 2  # we only have stalker/zealot in 2s3z
 
 
-def _build_role_oh(scenario_unit_types: jnp.ndarray) -> jnp.ndarray:
-    """Map global unit_type idx (0..5) to local role idx (0=stalker, 1=zealot)."""
-    # In 2s3z, ally unit types are first 5: [stalker, stalker, zealot, zealot, zealot].
+def _build_role_oh(scenario_unit_types: jnp.ndarray, n_allies: int) -> jnp.ndarray:
+    """Map global unit_type idx (0..5) to local role idx (0=stalker, 1=zealot).
+
+    Hardcoded for the stalker/zealot 2s3z scenario; guard against other maps.
+    """
+    assert n_allies == 5, (
+        f"_build_role_oh assumes the 2s3z scenario (5 allies, stalker/zealot); "
+        f"got {n_allies} allies. Update ROLE_TO_IDX/N_ROLES for other maps."
+    )
     role_local = jnp.where(
-        scenario_unit_types[:5] == ROLE_TO_IDX["stalker"], 0, 1
+        scenario_unit_types[:n_allies] == ROLE_TO_IDX["stalker"], 0, 1
     )
     return jax.nn.one_hot(role_local, N_ROLES)
 
@@ -125,7 +131,7 @@ def train(cfg: Config):
 
     # Roles (stalker/zealot) — fixed for 2s3z scenario.
     # scenario.unit_types is a jnp array of length num_allies + num_enemies.
-    role_oh = _build_role_oh(jnp.asarray(scenario.unit_types))
+    role_oh = _build_role_oh(jnp.asarray(scenario.unit_types), n_agents)
     agent_id_oh = jnp.eye(n_agents)
     aug_dim = obs_dim + n_agents + N_ROLES
 
@@ -346,10 +352,13 @@ def train(cfg: Config):
         )
 
         # Episode bookkeeping (per env).
+        # Win proxy: SMAX adds won_battle_bonus=1.0 on a win, while shaped
+        # (damage) reward over an episode stays well below 1.0 (observed max for
+        # non-winning episodes ~0.73). So a return > 1.0 cleanly indicates a win.
         ep_return += r
         for e in np.nonzero(done)[0]:
             ep_returns.append(float(ep_return[e]))
-            ep_wins.append(1 if ep_return[e] > 0.5 else 0)
+            ep_wins.append(1 if ep_return[e] > 1.0 else 0)
             ep_return[e] = 0.0
 
         # Train. Targets are soft-updated (Polyak) inside `update` each step.
