@@ -10,8 +10,9 @@ $\varepsilon$-greedy exploration samples each agent's random action
 **independently**, which makes the probability of stumbling onto a coordinated
 joint action vanish exponentially in the number of agents. We replace
 independent $\varepsilon$-greedy with **correlated $\varepsilon$-greedy**: the
-agents' exploration decisions are coupled through a Gaussian copula whose
-correlation matrix is built from the cosine similarity of per-agent features.
+random action that exploring agents take is coupled through a Gaussian copula
+whose correlation matrix is the cosine similarity of per-agent features, so
+similar agents tend to pick the same action.
 We evaluate the method on two cooperative benchmarks (a custom *Hallway* and
 *Level-Based Foraging*) with two value-decomposition
 backbones (VDN and QMIX), and port the method to a GPU-accelerated StarCraft-like
@@ -46,8 +47,10 @@ are, accelerates learning on tasks whose bottleneck is coordination.*
 ## 2. Method: Correlated Exploration via a Gaussian Copula
 
 We keep the $\varepsilon$-greedy template — with probability $\varepsilon$ an
-agent acts randomly, otherwise greedily — but we *correlate the random
-decisions across agents*.
+agent acts randomly, otherwise greedily — but we *correlate which random action
+the exploring agents take*. *Who* explores stays an independent Bernoulli (same
+exploration budget as the baseline); only the random action is coupled across
+agents.
 
 ### 2.1 Gaussian copula
 
@@ -63,10 +66,12 @@ construction is:
 4. Map through the standard-normal CDF: $u_i = \Phi(y_i)$. Each $u_i$ is now
    uniform on $[0,1]$, but the $u_i$ are *correlated* according to $R$.
 
-Each agent then explores iff $u_i < \varepsilon$. Because the $u_i$ are
-correlated, agents with high pairwise correlation tend to explore (or exploit)
-*together*. Independent $\varepsilon$-greedy is exactly the special case
-$R = I$.
+An exploring agent then takes the action $\lfloor u_i \cdot |A_i| \rfloor$ (the
+$u_i$-indexed action among its $|A_i|$ available actions). Because the $u_i$ are
+correlated, agents with high pairwise correlation tend to pick the *same* action
+— a coordinated joint action (e.g. both stepping onto switches, or focus-firing
+the same enemy). Independent $\varepsilon$-greedy is the special case $R = I$,
+where the $u_i$ are independent and the actions are uncorrelated.
 
 ### 2.2 Where the correlation matrix comes from
 
@@ -84,11 +89,11 @@ We compare three **similarity sources** $f_i$:
 - **`hidden`** — the hidden activation of the Q-network backbone.
 
 This design is *role-agnostic*: nothing in the method knows which agents share a
-role. When two agents are genuinely similar (e.g. two units of the same type),
-the cosine similarity is high and they get correlated; when they differ, the
-correlation drops. We verified this empirically — on SMAX `2s3z` (2 stalkers +
-3 zealots) the correlation matrix is visibly *block-structured* along role
-boundaries without any role information being supplied.
+role. When two agents are in genuinely similar situations, the cosine similarity
+is high and they get correlated; when they differ, the correlation drops. On SMAX
+`2s3z` (2 stalkers + 3 zealots) this coupling is largely aligned with unit type —
+the two stalkers are consistently the most correlated pair — without any role
+information being supplied (Section 5.3).
 
 ## 3. Experimental Setup
 
@@ -169,6 +174,12 @@ network is random, so its Q-values and hidden states carry little reliable
 similarity signal, whereas the raw observation is informative from step one.
 
 ## 5. SMAX `2s3z` (StarCraft-like, JAX)
+
+> **Note:** the figures and numbers in §5.2–5.3 are currently being regenerated
+> after a fix to the correlated-exploration mechanism (it now correlates *which
+> action* exploring agents take, matching §2 and the toy implementation, rather
+> than *whether* they explore). The qualitative story is expected to hold or
+> strengthen; this note will be removed once the corrected grid completes.
 
 We reimplemented the full method in pure JAX (Flax networks, Optax optimiser)
 against the JaxMARL SMAX environment, vectorising 128 parallel environments with
