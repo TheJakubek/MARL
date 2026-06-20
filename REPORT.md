@@ -209,18 +209,26 @@ separate from independent through the 35–55% region of training before all
 curves saturate at 1.0. The ordering is consistent: every correlated variant
 reaches the 50% milestone before independent, on both backbones.
 
-### 5.3 The method recovers role structure for free
+### 5.3 What the learned correlation matrix reveals
 
 ![SMAX learned correlation](plot_smax_corr_matrix.png)
 
-Logging the learned correlation matrix confirms the central design claim: with
-**no role information supplied**, cosine similarity recovers the two-role
-structure of `2s3z`. With the `obs` source the two stalkers are the most
-correlated pair (0.80) while cross-role (stalker–zealot) correlations are lowest
-(~0.50); the `hidden` source shows the same block structure even more sharply.
-The copula thus couples *same-role* agents — which is exactly the kind of
-coordinated exploration the method is meant to induce — without being told what
-the roles are.
+Logging the correlation matrix (averaged over seeds, end of training) exposes a
+clear difference between the similarity sources — and explains why `obs` is the
+most reliable one.
+
+- **`obs`** retains discriminative structure: the two stalkers are strongly
+  coupled (0.80) and clearly separated from the zealots `z1`/`z2` (0.25), with no
+  role information ever supplied. The raw observation always encodes unit type,
+  so this structure persists throughout training.
+- **`q_values`** and **`hidden`** are near-uniform (~0.95–1.0): by convergence
+  every agent has learned the same focus-fire behaviour, so the learned
+  Q-values and backbone activations *homogenise* and lose the role distinction.
+
+This is exactly why `obs` is the dependable choice: learned features become
+uninformative for correlation as the policy converges, whereas the observation
+keeps coupling genuinely-similar agents — the coordinated exploration the method
+is meant to induce.
 
 ## 6. Discussion and Limitations
 

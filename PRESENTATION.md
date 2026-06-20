@@ -100,12 +100,13 @@ converge required Double DQN + soft targets + state LayerNorm.)*
 
 ---
 
-## Result 4 — the method discovers roles for free
+## Result 4 — what the correlation matrix reveals
 
-![w:760](plot_smax_corr_matrix.png)
+![w:880](plot_smax_corr_matrix.png)
 
-With **no role information**, cosine similarity recovers the two-role structure:
-stalker–stalker correlation 0.80 vs. cross-role ~0.50.
+**`obs`** keeps role structure (stalker pair 0.80 vs. 0.25 to zealots) — the
+observation always encodes unit type. **`q_values`/`hidden`** homogenise
+(~0.95+) as the policy converges → why `obs` is the reliable source.
 
 ---
 
