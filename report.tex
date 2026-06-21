@@ -21,8 +21,8 @@
 \newcommand{\hid}{\texttt{hidden}}
 
 \title{\vspace{-2em}\textbf{Correlated Exploration for Cooperative MARL\\via a Gaussian Copula}}
-\author[]{Project 9 --- Reinforcement Learning}
-\affil[]{}
+\author[]{Micha\l{} S\l owakiewicz \and Jakub Wo\'zniak}
+\affil[]{Project 9 --- Reinforcement Learning}
 \date{}
 
 \begin{document}
@@ -267,17 +267,20 @@ a GPU-scale StarCraft-like task.
 
 \section*{Use of AI Tools}
 \small
-The project was developed with \textbf{Claude Code} (Anthropic Claude Opus) as a
-pair-programming assistant: implementing the PyTorch toy-environment stack and the
-JAX/JaxMARL SMAX pipeline, debugging cluster issues (CUDA/cuDNN, multi-process GPU
-OOM), diagnosing training failures, generating figures, and drafting this report.
-\emph{Worked well:} fast iteration; systematic debugging (diagnosing the SMAX
-Q-divergence from the loss curve, the $\sim$50$\times$ \texttt{vmap} speed-up).
-\emph{Did not:} several defaults were wrong --- most importantly its first SMAX
-exploration correlated \emph{whether} each agent explored rather than \emph{which
-action} it took, a conceptual bug caught only in human code review. The
-assistant accelerates implementation but its output needs careful conceptual
-verification.
+During the development of this project, \textbf{Claude Code} (Anthropic Claude
+Opus) was used as a programming assistant: implementing substantial parts of the
+PyTorch toy-environment stack and the JAX/JaxMARL SMAX pipeline, assisting with
+cluster debugging (e.g., resolving CUDA/cuDNN compatibility and multi-process GPU
+OOM issues), generating figures, and helping draft this report.
+\emph{Worked well:} the tool was effective for rapid prototyping and for
+diagnosing specific implementation bottlenecks --- notably the SMAX Q-divergence
+and the $\sim$50$\times$ \texttt{vmap} speed-up.
+\emph{Did not:} the assistant occasionally produced conceptually flawed logic.
+Most notably, its initial SMAX exploration strategy correlated \emph{whether}
+each agent explored rather than \emph{which action} it took --- a critical
+conceptual bug that surfaced only under manual code review. Ultimately, while the
+tool accelerates implementation, human oversight and conceptual verification
+remained necessary throughout.
 
 \begin{thebibliography}{9}
 \small

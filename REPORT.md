@@ -1,5 +1,7 @@
 # Correlated Exploration for Cooperative MARL via a Gaussian Copula
 
+**Michał Słowakiewicz, Jakub Woźniak**
+
 **Project 9 — Reinforcement Learning**
 
 ## Abstract
@@ -318,22 +320,22 @@ stalkers most strongly) with no role information supplied.
 
 ## 8. Use of AI tools
 
-The project was developed with **Claude Code** (Anthropic Claude Opus) as a
-pair-programming assistant.
+During the development of this project, **Claude Code** (Anthropic Claude Opus)
+was used as a programming assistant: implementing substantial parts of the
+PyTorch toy-environment stack and the JAX/JaxMARL SMAX pipeline, assisting with
+cluster debugging (e.g., resolving CUDA/cuDNN compatibility and multi-process GPU
+OOM issues), generating figures, and helping draft this report.
 
-- **What it was used for:** implementing the PyTorch toy-environment MARL stack
-  (VDN/QMIX, replay buffers, exploration) and the from-scratch JAX/JaxMARL SMAX
-  pipeline; debugging cluster issues (CUDA/cuDNN wheels, multi-process GPU OOM);
-  diagnosing training failures; generating figures; and drafting this report.
-- **What worked well:** fast iteration on boilerplate; systematic debugging —
-  e.g. correctly diagnosing the SMAX Q-value divergence from the loss curve and
-  the ~50× `jax.vmap` throughput rewrite.
-- **What did not:** several defaults it chose were wrong and needed correction.
-  Most importantly, its first SMAX exploration correlated *whether* each agent
-  explored rather than *which action* it took — a subtle conceptual bug that only
-  surfaced in **human code review**, not from the tool itself. The initial SMAX
-  hyper-parameters also diverged. The lesson: the assistant accelerates
-  implementation but its output requires careful conceptual verification.
+*Worked well:* the tool was effective for rapid prototyping and for diagnosing
+specific implementation bottlenecks — notably the SMAX Q-divergence and the ~50×
+`jax.vmap` speed-up.
+
+*Did not:* the assistant occasionally produced conceptually flawed logic. Most
+notably, its initial SMAX exploration strategy correlated *whether* each agent
+explored rather than *which action* it took — a critical conceptual bug that
+surfaced only under manual code review. Ultimately, while the tool accelerates
+implementation, human oversight and conceptual verification remained necessary
+throughout.
 
 ---
 

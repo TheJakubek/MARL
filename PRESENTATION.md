@@ -11,6 +11,8 @@ size: 16:9
 
 ### via a Gaussian Copula
 
+**Michał Słowakiewicz, Jakub Woźniak**
+
 **Project 9 — Reinforcement Learning**
 
 ---
