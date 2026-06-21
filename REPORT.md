@@ -198,8 +198,9 @@ to $10^4$–$10^6$ — Q-value explosion, not under-training. Four standard
 stabilisers fixed it: Double DQN targets, Polyak soft target updates
 ($\tau{=}0.005$), $\text{lr}=10^{-4}$, and a `LayerNorm` on the QMIX mixer's
 unnormalised global-state input (values up to ~24 otherwise blew up the
-`abs()`-weighted hypernetwork). Both backbones then **solve `2s3z` to ~100% win
-rate**.
+`abs()`-weighted hypernetwork). After these fixes training converges instead of
+diverging, and the best configurations reach a ~95–100% win rate (the per-variant
+breakdown is in §5.2).
 
 ### 5.2 Correlated exploration helps, most on the harder mixer
 
@@ -292,7 +293,7 @@ uninformative as the policy converges.
 
 ## 7. Conclusion
 
-Coupling agents' $\varepsilon$-greedy decisions through a Gaussian copula
+Coupling agents' exploratory **actions** through a Gaussian copula
 parameterised by cosine similarity is a simple, drop-in change that
 measurably accelerates cooperative MARL on coordination-bottlenecked tasks
 (+64–94% early success on *Hallway*) and demonstrably improves exploration
