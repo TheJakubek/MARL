@@ -22,9 +22,10 @@ to +94%** relative success in *Hallway* at episodes 50–100) and discovers
 **2.6–2.9× more** coordinated successes on the hard *LBF* task, confirming that
 the exploration mechanism works even where downstream learning is unstable. On
 SMAX `2s3z`, correlated exploration speeds up convergence under VDN and, under
-the harder QMIX mixer, **lifts the final win rate from 0.81 to 0.91**; the
-`obs`-based correlation couples situationally-similar agents (the two stalkers
-most strongly) with no role information supplied.
+the harder QMIX mixer, makes training **markedly more reliable** (mean final win
+0.81→0.91 with ~3× lower seed variance; suggestive but not significant at n=5);
+the `obs`-based correlation couples situationally-similar agents (the two
+stalkers most strongly) with no role information supplied.
 
 ## 1. Introduction and Hypothesis
 
@@ -207,23 +208,24 @@ breakdown is in §5.2).
 ![SMAX QMIX](plot_smax_qmix.png)
 ![SMAX VDN](plot_smax_vdn.png)
 
-We report two metrics per configuration (5 seeds): the final win rate (mean over
-the last 10% of episodes) and the fraction of training needed to first reach a
-50% win rate (lower = faster).
+Final win rate (mean ± std over 5 seeds, last 10% of episodes):
 
-| Backbone | Independent (final / to-50%) | Best correlated (final / to-50%) |
-|---|---|---|
-| VDN  | 0.95 / 0.70 | 0.95 / **0.66** (`q_values`) |
-| QMIX | 0.81 / 0.74 | **0.91** / **0.65** (`hidden`) |
+| Backbone | Independent | corr-`obs` | corr-`q_values` | corr-`hidden` |
+|---|---|---|---|---|
+| VDN  | 0.95±.02 | 0.95±.01 | 0.94±.01 | 0.95±.01 |
+| QMIX | 0.81±.19 | 0.91±.06 | 0.90±.12 | 0.91±.07 |
 
-- **VDN** (simple additive mixer) is easy enough that every variant converges to
-  the same ~0.95 win rate; correlated exploration just reaches the 50% milestone
-  somewhat sooner (≈6% earlier).
-- **QMIX** (harder monotonic mixer) is where correlated exploration clearly
-  helps: independent plateaus lower (0.81) and with high seed-to-seed variance,
-  while the correlated variants reach a **higher and more reliable final win rate
-  (0.90–0.91)** and get there faster. The learning curves show all three
-  correlated variants tracking above independent through most of training.
+- **VDN** (simple additive mixer): every variant converges to ~0.95; correlated
+  only reaches the 50%-win milestone ~6% sooner.
+- **QMIX** (harder monotonic mixer): the effect is larger but must be read
+  carefully. Independent has a higher *mean* **and** much larger variance
+  (0.81±0.19; one seed collapses to 0.48), while correlated variants are higher
+  and far more reliable (0.90–0.91, std ≤0.12). A bootstrap over the 5 seeds
+  gives a mean gap of **+0.10** for the best correlated variant, 95% CI
+  **[−0.03, 0.28]**, P(corr > indep) ≈ **0.91** — *suggestive but not significant
+  at n=5*. The robust, reproducible effect is the **reduced variance / improved
+  reliability** (correlated avoids the failed runs independent suffers) plus the
+  consistent early speed-up; a firm claim on the mean gain needs more seeds.
 
 This matches the hypothesis: coupling the exploratory actions (here, coordinated
 focus-fire) helps most when credit assignment is harder.
@@ -287,9 +289,19 @@ uninformative as the policy converges.
   the gain is not retained.
 - **`obs` similarity is the safe default.** Learned features (`q_values`,
   `hidden`) are unreliable early in training, exactly when exploration matters.
-- **Limitations.** Only 2 agents in the toy tasks; the catastrophic forgetting
-  on *LBF* limits the conclusiveness of that benchmark; and the correlation is
-  recomputed greedily each step rather than annealed.
+- **Limitations.**
+  *(i)* The *Hallway* observation is a single non-negative scalar, so its cosine
+  matrix is ≈ all-ones regardless of state — there correlated-`obs` reduces to
+  "explore the same action." That validates *that* correlated exploration helps,
+  but not the discriminative value of the cosine similarity, which is genuinely
+  exercised only by the higher-dimensional *LBF*/SMAX observations.
+  *(ii)* The SMAX final-win improvement is suggestive but not significant at n=5
+  (§5.2); the robust claim is the reduced variance and faster learning.
+  *(iii)* We correlate actions only *within a single step*, unlike
+  trajectory-level committed exploration (e.g. MAVEN) — a deliberate
+  simplification that already raises the rate of coordinated joint actions.
+  *(iv)* `R` is recomputed greedily each step rather than annealed; only 2 agents
+  in the toy tasks.
 
 ## 7. Conclusion
 
