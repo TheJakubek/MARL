@@ -40,10 +40,11 @@ similarity of per-agent features, so similar agents tend to pick the same action
 On a coordination-bottlenecked toy task (\emph{Hallway}) this yields a
 \textbf{+64--94\%} relative early-learning gain; on sparse \emph{Level-Based
 Foraging} it finds \textbf{2.6--2.9$\times$} more coordinated successes; and on a
-GPU-scale StarCraft-like task (SMAX \texttt{2s3z}, JAX) it lifts the QMIX final
-win rate from \textbf{0.81 to 0.91}. The observation is the most reliable
-similarity source, coupling situationally-similar agents with no role
-information supplied.
+GPU-scale StarCraft-like task (SMAX \texttt{2s3z}, JAX) it makes QMIX training
+markedly more reliable (mean final win $0.81{\to}0.91$ with $\sim$3$\times$ lower
+seed variance; suggestive but not significant at $n{=}5$). The observation is the
+most reliable similarity source, coupling situationally-similar agents with no
+role information supplied.
 \end{abstract}
 
 \section{Introduction}
@@ -184,25 +185,31 @@ rate than independent (0.91 vs.\ 0.81) and get there sooner.}
 \end{figure}
 
 \paragraph{Correlated exploration helps most on the harder mixer.}
-Table~\ref{tab:smax} reports the final win rate (last 10\% of episodes) and the
-fraction of training to first reach 50\% wins (lower is faster). Under VDN
-(simple additive mixer) every variant converges to $\sim$0.95; correlated just
-gets there $\sim$6\% sooner. Under QMIX (harder monotonic mixer) correlated
-exploration clearly helps: independent plateaus lower (0.81) with high seed
-variance, while correlated reaches a \textbf{higher, more reliable final win rate
-(0.90--0.91)} and faster (Fig.~\ref{fig:smax}). Coupling exploratory actions
-(coordinated focus-fire) helps most when credit assignment is harder.
+Under VDN (simple additive mixer) every variant converges to $\sim$0.95;
+correlated only reaches the 50\%-win milestone $\sim$6\% sooner. Under QMIX
+(harder monotonic mixer) the effect is larger but must be read carefully
+(Table~\ref{tab:smax}, Fig.~\ref{fig:smax}): independent has a much higher mean
+\emph{and} a much larger seed variance ($0.81{\pm}0.19$; one seed collapses to
+$0.48$), while all correlated variants are higher and far more reliable
+($0.90$--$0.91$, std $\le 0.12$). A bootstrap over the 5 seeds gives a mean gap of
+$+0.10$ for the best correlated variant with 95\% CI $[-0.03, 0.28]$ and
+$P(\text{correlated}>\text{independent})\approx 0.91$ --- \emph{suggestive but not
+significant at $n{=}5$}. The robust, reproducible effect is therefore the
+\textbf{reduced variance / improved reliability} of correlated exploration (it
+avoids the failed runs that independent suffers) plus the consistent early
+speed-up; a firm claim on the mean final-win gain would need more seeds.
 
 \begin{table}[t]
 \centering\small
-\caption{SMAX \texttt{2s3z}: final win rate / fraction-of-training to 50\% wins.}
+\caption{SMAX \texttt{2s3z}: final win rate (mean\,$\pm$\,std over 5 seeds).}
 \label{tab:smax}
-\begin{tabular}{lcc}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcccc}
 \toprule
-Backbone & Independent & Best correlated \\
+& Indep. & corr-\obs & corr-\qv & corr-\hid \\
 \midrule
-VDN  & 0.95 / 0.70 & 0.95 / \textbf{0.66} \\
-QMIX & 0.81 / 0.74 & \textbf{0.91} / \textbf{0.65} \\
+VDN  & $0.95{\pm}.02$ & $0.95{\pm}.01$ & $0.94{\pm}.01$ & $0.95{\pm}.01$ \\
+QMIX & $0.81{\pm}.19$ & $0.91{\pm}.06$ & $0.90{\pm}.12$ & $0.91{\pm}.07$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -236,9 +243,21 @@ situationally-similar agents is arguably the right behaviour.
 Correlated exploration helps where (a) coordination is the bottleneck and (b)
 learning is stable enough to exploit discovered successes (Hallway, SMAX-QMIX).
 Where learning itself is unstable (LBF), it still finds more successes but the
-gain is not retained. \obs{} is the safe default similarity source. Limitations:
-only 2 agents in the toy tasks; LBF's forgetting limits that benchmark's
-conclusiveness; and $R$ is recomputed greedily each step rather than annealed.
+gain is not retained. \obs{} is the safe default similarity source.
+
+\paragraph{Limitations.} (i)~The \emph{Hallway} observation is a single
+non-negative scalar, so its cosine matrix is $\approx$ all-ones regardless of
+state; there correlated-\obs{} reduces to ``explore the same action.'' That
+validates \emph{that} correlated exploration helps, but not the discriminative
+value of the cosine similarity --- which is genuinely exercised only by the
+higher-dimensional LBF and SMAX observations. (ii)~The SMAX final-win
+improvement is suggestive but not significant at $n{=}5$ (Sec.~5); the robust
+claim is the reduced variance and faster learning. (iii)~We correlate actions
+only \emph{within a single step}, unlike trajectory-level committed exploration
+(e.g.\ MAVEN); per-step coupling already raises the rate of coordinated joint
+actions, but temporally-extended coupling is a natural extension. (iv)~$R$ is
+recomputed greedily each step rather than annealed; only 2 agents in the toy
+tasks.
 
 Overall, coupling agents' exploratory \emph{actions} through a Gaussian copula
 parameterised by cosine similarity is a simple, drop-in change that measurably
