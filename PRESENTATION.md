@@ -31,15 +31,17 @@ alike — should accelerate learning on coordination-bottlenecked tasks.
 
 ## Method: Gaussian copula
 
-Keep the $\varepsilon$-greedy template, but **correlate** the random decisions:
+Keep the $\varepsilon$-greedy template, but **correlate which action** the
+exploring agents take (who explores stays an independent Bernoulli):
 
 1. Build a correlation matrix $R$ (PSD, unit diagonal)
 2. Cholesky $R = LL^\top$
 3. Sample $z \sim \mathcal{N}(0,I)$, set $y = Lz \sim \mathcal{N}(0,R)$
 4. $u_i = \Phi(y_i)$ → uniform marginals, **correlated** across agents
 
-Agent $i$ explores iff $u_i < \varepsilon$. Independent $\varepsilon$-greedy is
-exactly the special case $R = I$.
+An exploring agent takes action $\lfloor u_i\cdot|A_i|\rfloor$. Correlated
+agents draw similar $u_i$ → **same joint action** (focus-fire, both on switches).
+Independent $\varepsilon$-greedy is the special case $R = I$.
 
 ---
 
@@ -94,9 +96,9 @@ exploration misses.
 
 ![w:560](plot_smax_qmix.png)
 
-All methods reach ~**100% win rate**. Correlated reaches 50% win **~11% (VDN) /
-~15% (QMIX) faster** than independent. *(Getting a from-scratch JAX learner to
-converge required Double DQN + soft targets + state LayerNorm.)*
+Under **QMIX**, correlated lifts the **final win rate 0.81 → 0.91** (and reaches
+50% sooner); under the easier VDN all reach ~0.95, correlated ~6% faster.
+*(Convergence required Double DQN + soft targets + a LayerNorm on the SMAX state.)*
 
 ---
 
@@ -112,12 +114,12 @@ is noisy, **`hidden`** weak → why `obs` is the reliable source.
 
 ## Conclusions
 
-- Correlated $\varepsilon$-greedy via a Gaussian copula is a **simple, drop-in**
-  change to exploration
-- **Accelerates** learning where coordination is the bottleneck (Hallway +64–94%,
-  SMAX 11–15% faster)
+- Correlating agents' exploratory **actions** via a Gaussian copula is a
+  **simple, drop-in** change to exploration
+- **Accelerates** learning where coordination is the bottleneck (Hallway +64–94%)
 - **Improves exploration quality** even where value learning fails (LBF 2.6–2.9×)
-- **`obs`** is the most reliable similarity source
-- The correlation matrix **recovers role structure** automatically
+- **Scales to GPU (SMAX):** lifts QMIX final win rate **0.81 → 0.91**
+- **`obs`** is the most reliable similarity source; couples situationally-similar
+  agents (stalkers most strongly) with no role info supplied
 
 **Thank you — questions?**
