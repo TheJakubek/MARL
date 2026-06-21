@@ -76,11 +76,20 @@ where the $u_i$ are independent and the actions are uncorrelated.
 ### 2.2 Where the correlation matrix comes from
 
 We need a PSD matrix that encodes "how similar are agents $i$ and $j$ right
-now". Cosine similarity gives this *for free*: if $f_i$ is a feature vector for
-agent $i$ and $\hat f_i = f_i / \lVert f_i \rVert$, then
-$R = \hat F \hat F^\top$ is a Gram matrix — automatically PSD, with unit
-diagonal. We add a small jitter $\lambda I$ for numerical stability of the
-Cholesky factorisation.
+now". Cosine similarity gives this *for free*. Let $f_i$ be a feature vector for
+agent $i$ and $\hat f_i = f_i / \lVert f_i \rVert$ its $L^2$-normalisation. Then
+
+$$
+R_{ij} = \hat f_i^\top \hat f_j = \frac{f_i^\top f_j}{\lVert f_i\rVert\,\lVert f_j\rVert}
+= \cos\theta_{ij}, \qquad R = \hat F \hat F^\top + \lambda I,
+$$
+
+where $\hat F \in \mathbb{R}^{n\times d}$ stacks the normalised feature vectors.
+$R$ is a **Gram matrix**, hence automatically positive semi-definite
+($x^\top R x = \lVert \hat F^\top x\rVert^2 \ge 0$), with unit diagonal — a valid
+correlation matrix. The small jitter $\lambda I$ (we use $\lambda=10^{-3}$) keeps
+the Cholesky factorisation well-conditioned when two feature vectors nearly
+coincide.
 
 We compare three **similarity sources** $f_i$:
 
